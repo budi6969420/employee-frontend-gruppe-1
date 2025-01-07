@@ -22,7 +22,7 @@ export class EmployeeListComponent {
   }
 
   fetchData() {
-    this.employees$ = this.http.get<Employee[]>('http://employee.budidev.de/api/employees', {
+    this.employees$ = this.http.get<Employee[]>('http://api.employee.budidev.de/employees', {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${this.bearer}`)
