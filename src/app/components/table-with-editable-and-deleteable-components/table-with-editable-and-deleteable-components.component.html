@@ -1,0 +1,26 @@
+<div class="container border rounded p-3">
+  <div class="d-flex justify-content-between">
+    <h3>Team members</h3>
+    <button class="btn">
+      <i class="bi bi-plus-lg"></i>
+    </button>
+  </div>
+  <table class="table table-responsive table-hover">
+    <thead>
+      <th scope="col">Name</th>
+    </thead>
+    <tbody>
+      @for (member of teamMembers; track member){
+        <tr>
+          <td>{{ member.name }}</td>
+          <td>
+            <div class="d-flex gap-3 justify-content-end">
+              <button class="btn" (click)="deleteMember(member)"><i class="bi bi-x-circle-fill"></i></button>
+              <button class="btn" (click)="editMember(member)"><i class="bi bi-pencil-square"></i></button>
+            </div>
+            </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
