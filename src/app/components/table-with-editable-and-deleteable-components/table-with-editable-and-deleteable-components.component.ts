@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 
 @Component({
@@ -8,25 +8,30 @@ import { Component } from '@angular/core';
   styleUrls: ['./table-with-editable-and-deleteable-components.component.css']
 })
 export class TableWithEditableAndDeleteableComponentsComponent {
-  searchTerm: string = '';
-  teamMembers = [
-    { name: 'Max Mustermann' },
-    { name: 'Max Mustermann' },
-    { name: 'Max Mustermann' },
-    { name: 'Max Mustermann' },
-    { name: 'Max Mustermann' },
-    { name: 'Max Mustermann' },
+
+  @Input() data: any[] = [
+    {name: 'Max Mustermann'},
   ];
+  @Input() showEditButton: boolean = true;
+  @Input() showDeleteButton: boolean = true;
+  @Input() showAddButton: boolean = true;
 
-  addMember() {
-    console.log('Add member clicked');
+
+
+  @Output() edit = new EventEmitter<any>();
+  @Output() delete = new EventEmitter<any>();
+
+  onAdd() {
+    // #Todo need the Add Page
   }
 
-  editMember(member: any) {
-    console.log('Edit member:', member);
+  onEdit(member: any) {
+    this.edit.emit(member);  // Edit-Event auslösen
   }
 
-  deleteMember(member: any) {
-    console.log('Delete member:', member);
+  onDelete(member: any) {
+    this.delete.emit(member);  // Delete-Event auslösen
   }
+
+  protected readonly menubar = menubar;
 }

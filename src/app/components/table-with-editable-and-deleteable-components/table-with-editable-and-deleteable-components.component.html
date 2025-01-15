@@ -1,22 +1,29 @@
-<div class="container border rounded p-3">
-  <div class="d-flex justify-content-between">
+<div class="custom-table container border rounded p-0 overflow-auto">
+  <div class="d-flex justify-content-between p-3">
     <h3>Team members</h3>
-    <button class="btn">
-      <i class="bi bi-plus-lg"></i>
-    </button>
+    @if (showAddButton) {
+      <button class="btn" (click)="onAdd()">
+        <i class="bi bi-plus-lg fs-3" ></i>
+      </button>
+    }
   </div>
-  <table class="table table-responsive table-hover">
-    <thead>
-      <th scope="col">Name</th>
+  <table class="table table-responsive table-hover m-0">
+    <thead class="th-custom">
+      <th scope="col" class="p-3">Name</th>
+      <th></th>
     </thead>
     <tbody>
-      @for (member of teamMembers; track member){
+      @for (member of data; track member){
         <tr>
-          <td>{{ member.name }}</td>
+          <td class="p-3">{{ member.name }}</td>
           <td>
             <div class="d-flex gap-3 justify-content-end">
-              <button class="btn" (click)="deleteMember(member)"><i class="bi bi-x-circle-fill"></i></button>
-              <button class="btn" (click)="editMember(member)"><i class="bi bi-pencil-square"></i></button>
+              @if(showDeleteButton){
+                <button class="btn" (click)="onDelete(member)"><i class="bi bi-x-circle-fill"></i></button>
+              }
+              @if (showEditButton) {
+                <button class="btn" (click)="onEdit(member)"><i class="bi bi-pencil-square"></i></button>
+              }
             </div>
             </td>
         </tr>
