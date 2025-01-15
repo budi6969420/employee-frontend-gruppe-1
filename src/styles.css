@@ -1,3 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
-@import "bootstrap/dist/css/bootstrap.min.css";
 @import "bootstrap-icons";
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+:root {
+  --bg-primary: #FFFFFF;
+  --text-secondary-700: #414651;
+  --fg-primary-900: #181D27;
+  --border-secondary: #E9EAEB;
+}
+
+* {
+  font-family: "Roboto", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+body {
+  height: 100vh;
+}

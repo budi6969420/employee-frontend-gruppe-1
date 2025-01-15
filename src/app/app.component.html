@@ -1,4 +1,8 @@
-<app-employee-list></app-employee-list>
+<app-navbar *ngIf="!isLoginPage" style="height: 20%"></app-navbar>
+<br>
+<div class="container" style="height: 80%">
+  <router-outlet></router-outlet>
+</div>
 
 <app-team-members
   [showEditButton]="false"
