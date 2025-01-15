@@ -12,17 +12,17 @@ export const routes: Routes = [
   {
     path: 'employees',
     component: EmployeeListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
-    path: 'qualifications',
-    component: NavbarComponent,
-    canActivate: [AuthGuard]
+    path: 'employees/create',
+    component: EmployeeListComponent, // Use the appropriate component for creating an employee
+    canActivate: [AuthGuard],
   },
   {
-    path: 'settings',
-    component: SettingsViewComponent,
-    canActivate: [AuthGuard]
+    path: 'employees/edit/:id', // Use `:id` to denote a dynamic parameter
+    component: EmployeeListComponent, // Use the appropriate component for editing an employee
+    canActivate: [AuthGuard],
   },
 ];
 
@@ -33,3 +33,10 @@ export const routes: Routes = [
 export class AppRoutingModule {
 
 }
+
+/*
+ngOnInit(): void {
+    this.employeeId = this.route.snapshot.paramMap.get('id');
+    console.log(this.employeeId); // Use this to fetch the employee details
+}
+ */
