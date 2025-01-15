@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh
+}
+.btn-purple {
+  background-color: #6f42c1;
+  color: white;
+}
+

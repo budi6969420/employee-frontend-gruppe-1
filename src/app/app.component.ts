@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import {EmployeeListComponent} from "./employee-list/employee-list.component";
 
 @Component({
@@ -11,5 +10,5 @@ import {EmployeeListComponent} from "./employee-list/employee-list.component";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'lf10StarterNew';
+  title = 'Employee Management Website';
 }
