@@ -1,11 +1,12 @@
 @import "bootstrap-icons";
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "bootstrap/dist/css/bootstrap.min.css";
 
 :root {
   --bg-primary: #FFFFFF;
+  --text-primary-400: #000000;
   --text-secondary-700: #414651;
+  --text-selected-page: #175CD3;
   --fg-primary-900: #181D27;
   --border-secondary: #E9EAEB;
 }
@@ -15,8 +16,7 @@
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
+  font-variation-settings: "wdth" 100;
 }
 
 body {
