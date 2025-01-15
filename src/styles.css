@@ -17,3 +17,7 @@
   font-variation-settings:
     "wdth" 100;
 }
+
+body {
+  height: 100vh;
+}
