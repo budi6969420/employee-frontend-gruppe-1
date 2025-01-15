@@ -18,19 +18,8 @@ export class TokenService {
   constructor(private http: HttpClient) {}
 
   getToken(): Observable<string> {
-    const existingToken = localStorage.getItem(this.tokenKey);
-    const tokenTimestamp = localStorage.getItem(this.tokenTimestampKey);
-    const tokenExpiry = localStorage.getItem(this.tokenExpiryKey);
-
-    if (existingToken && tokenTimestamp && tokenExpiry) {
-      const requestedTime = parseInt(tokenTimestamp, 10);
-      const expiresIn = parseInt(tokenExpiry, 10);
-      const currentTime = Math.floor(Date.now() / 1000);
-
-      if (currentTime < requestedTime + expiresIn) {
-        return of(existingToken);
-      }
-    }
+    const existingToken = this.getTokenFromMemory();
+    if (this.isTokenValid() && existingToken) return of(existingToken);
 
     return this.fetchToken().pipe(
       tap(tokenResponse => {
@@ -44,6 +33,23 @@ export class TokenService {
     );
   }
 
+
+  public isTokenValid() : boolean {
+    const existingToken = localStorage.getItem(this.tokenKey);
+    const tokenTimestamp = localStorage.getItem(this.tokenTimestampKey);
+    const tokenExpiry = localStorage.getItem(this.tokenExpiryKey);
+
+    if (existingToken && tokenTimestamp && tokenExpiry) {
+      const requestedTime = parseInt(tokenTimestamp, 10);
+      const expiresIn = parseInt(tokenExpiry, 10);
+      const currentTime = Math.floor(Date.now() / 1000);
+
+      if (currentTime < requestedTime + expiresIn) {
+        return true;
+      }
+    }
+    return false;
+  }
   private fetchToken(): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
     const body = new HttpParams()
@@ -53,5 +59,15 @@ export class TokenService {
       .set('password', this.password);
 
     return this.http.post<any>(this.apiUrl, body.toString(), { headers });
+  }
+
+  getTokenFromMemory() {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  public removeTokenFromMemory() {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.tokenTimestampKey);
+    localStorage.removeItem(this.tokenExpiryKey);
   }
 }
