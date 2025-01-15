@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 
 @Component({
-  selector: 'app-team-members',
+  selector: 'app-base-table',
   templateUrl: './table-with-editable-and-deleteable-components.component.html',
   standalone: true,
   styleUrls: ['./table-with-editable-and-deleteable-components.component.css']

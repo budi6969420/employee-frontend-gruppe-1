@@ -37,4 +37,30 @@ export class EmployeeService {
         })
       );
   }
+
+  removeEmployee(employeeId: number): Observable<void> {
+    const token = this.tokenService.getTokenFromMemory();
+
+    if (!token) {
+      return of(undefined);
+    }
+
+    return this.http
+      .delete<void>(`https://api.employee.budidev.de/employees/${employeeId}`, {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('Authorization', `Bearer ${token}`),
+      })
+      .pipe(
+        switchMap(() => {
+          this.employees = this.employees.filter(employee => employee.id !== employeeId);
+          return of(undefined);
+        }),
+        catchError((error) => {
+          console.error('Error removing employee', error);
+          return of(undefined);
+        })
+      );
+  }
+
 }
