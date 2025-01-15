@@ -15,13 +15,23 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'employees/create',
-    component: EmployeeListComponent, // Use the appropriate component for creating an employee
+    path: 'employee/create',
+    component: NavbarComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'employees/edit/:id', // Use `:id` to denote a dynamic parameter
-    component: EmployeeListComponent, // Use the appropriate component for editing an employee
+    path: 'employee/edit/:id',
+    component: NavbarComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'qualifications',
+    component: NavbarComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'settings',
+    component: SettingsViewComponent,
     canActivate: [AuthGuard],
   },
 ];
