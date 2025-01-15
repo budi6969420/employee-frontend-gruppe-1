@@ -9,7 +9,7 @@ import {TokenService} from "./token.service";
   providedIn: 'root',
 })
 export class EmployeeService {
-  private employees: Employee[] = [];
+  public employees: Employee[] = [];
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
@@ -17,7 +17,7 @@ export class EmployeeService {
     const token = this.tokenService.getTokenFromMemory();
 
     if (!token) {
-      return of([]); // Return an empty array if there's no token
+      return of([]);
     }
 
     return this.http
@@ -36,9 +36,5 @@ export class EmployeeService {
           return of([]);
         })
       );
-  }
-
-  getStoredEmployees(): Employee[] {
-    return this.employees;
   }
 }

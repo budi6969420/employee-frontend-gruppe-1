@@ -18,7 +18,7 @@ import {EmployeeService} from "../services/employee.service";
 export class EmployeeListComponent implements OnInit {
   employees$: Observable<Employee[]>;
 
-  constructor(private http: HttpClient, private employeeService: EmployeeService) {
+  constructor(private employeeService: EmployeeService) {
     this.employees$ = of([]);
   }
 
