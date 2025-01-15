@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {TokenService} from "../../services/token.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-settings-view',
@@ -9,4 +11,10 @@ import { Component } from '@angular/core';
 })
 export class SettingsViewComponent {
 
+  constructor(private tokenService: TokenService, private router: Router) {
+  }
+  logout(): void {
+    this.tokenService.removeTokenFromMemory();
+    this.router.navigate(['/login']);
+  }
 }

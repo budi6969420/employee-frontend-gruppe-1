@@ -65,7 +65,7 @@ export class TokenService {
     return localStorage.getItem(this.tokenKey);
   }
 
-  private removeTokenFromMemory() {
+  public removeTokenFromMemory() {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.tokenTimestampKey);
     localStorage.removeItem(this.tokenExpiryKey);
