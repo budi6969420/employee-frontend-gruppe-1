@@ -1,0 +1,27 @@
+<div class="group">
+  <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+    <div class="mb-3 mt-3 mx-5">
+      <label for="firstname" class="form-label">Firstname:</label>
+      <input type="text" class="form-control" id="firstname" placeholder="Bernd">
+    </div>
+    <div class="mb-3 mx-5">
+      <label for="lastname" class="form-label">Lastname:</label>
+      <input type="text" class="form-control" id="lastname" placeholder="das Brot">
+    </div>
+    <div class="mb-3 mx-5">
+      <label for="postcode" class="form-label">Postcode:</label>
+      <input type="number" class="form-control" id="postcode" placeholder="12345">
+    </div>
+    <div class="mb-3 mx-5">
+      <label for="city" class="form-label">City:</label>
+      <input type="text" class="form-control" id="city" placeholder="Brotstadt">
+    </div>
+    <div class="mb-3 mx-5">
+      <label for="phone" class="form-label">Phone:</label>
+      <input type="text" class="form-control" id="phone" placeholder="12345/123456789">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-warning">Edit</button>
+    <button type="reset" class="btn btn-danger">Cancel</button>
+  </form>
+</div>
