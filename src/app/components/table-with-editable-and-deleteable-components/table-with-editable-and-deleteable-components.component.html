@@ -1,7 +1,7 @@
 <div class="custom-table container border rounded p-0 overflow-auto">
   <div class="d-flex justify-content-between p-3">
     <h3>Team members</h3>
-    @if (showAddButton) {
+    @if (onAddFunction) {
       <button class="btn" (click)="onAdd()">
         <i class="bi bi-plus-lg fs-3" ></i>
       </button>
@@ -18,10 +18,10 @@
           <td class="p-3">{{ member.name }}</td>
           <td>
             <div class="d-flex gap-3 justify-content-end">
-              @if(showDeleteButton){
+              @if(onDeleteFunction){
                 <button class="btn" (click)="onDelete(member)"><i class="bi bi-x-circle-fill"></i></button>
               }
-              @if (showEditButton) {
+              @if (onEditFunction) {
                 <button class="btn" (click)="onEdit(member)"><i class="bi bi-pencil-square"></i></button>
               }
             </div>

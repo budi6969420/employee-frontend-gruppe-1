@@ -10,11 +10,11 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class TableWithEditableAndDeleteableComponentsComponent {
 
   @Input() data: any[] = [
-    {name: 'Max Mustermann'},
   ];
-  @Input() showEditButton: boolean = true;
-  @Input() showDeleteButton: boolean = true;
-  @Input() showAddButton: boolean = true;
+
+  @Input() onEditFunction: ((data: any) => void) | null = null;
+  @Input() onDeleteFunction: ((data: any) => void) | null = null;
+  @Input() onAddFunction: ((data: any) => void) | null = null;
 
 
 
