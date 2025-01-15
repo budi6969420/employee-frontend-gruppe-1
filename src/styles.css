@@ -3,7 +3,9 @@
 
 :root {
   --bg-primary: #FFFFFF;
+  --text-primary-400: #000000;
   --text-secondary-700: #414651;
+  --text-selected-page: #175CD3;
   --fg-primary-900: #181D27;
   --border-secondary: #E9EAEB;
 }
