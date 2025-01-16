@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {EmployeeListComponent} from "./employee-list/employee-list.component";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 import {NavigationEnd, Router, RouterOutlet} from "@angular/router";
 import {CreateEmployeeViewComponent} from "./views/create-employee-view/create-employee-view.component";
