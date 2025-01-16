@@ -1,0 +1,7 @@
+@if (errorService.hasError()) {
+  <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-circle-fill me-2"></i>
+    <div>{{ errorService.error }}</div>
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close" (click)="errorService.removeError()"></button>
+  </div>
+}
