@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import {Observable, of, throwError} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
+import {ErrorService} from "./error.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class TokenService {
   private readonly tokenTimestampKey = 'employee_auth_token_timestamp';
   private readonly tokenExpiryKey = 'employee_auth_token_expiry';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private errorService: ErrorService) { }
 
   login(username: string, password: string): Observable<string> {
     const existingToken = this.getTokenFromMemory();
@@ -56,7 +57,13 @@ export class TokenService {
       .set('username', username)
       .set('password', password);
 
-    return this.http.post<any>(this.apiUrl, body.toString(), { headers });
+    return this.http.post<any>(this.apiUrl, body.toString(), { headers }).pipe(
+      catchError((error) => {
+        this.errorService.setError("Login failed");
+        return throwError(() => error);
+      })
+    );
+
   }
 
   getTokenFromMemory() {
