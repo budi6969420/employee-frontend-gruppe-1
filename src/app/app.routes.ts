@@ -5,6 +5,8 @@ import {LoginViewComponent} from "./views/login-view/login-view.component";
 import {AuthGuard} from "./guards/auth.guard";
 import {SettingsViewComponent} from "./views/settings-view/settings-view.component";
 import {EmployeeViewComponent} from "./views/employee-view/employee-view.component";
+import {CreateEmployeeViewComponent} from "./views/create-employee-view/create-employee-view.component";
+import {EditEmployeeViewComponent} from "./views/edit-employee-view/edit-employee-view.component";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/employees', pathMatch: 'full' },
@@ -16,12 +18,12 @@ export const routes: Routes = [
   },
   {
     path: 'employee/create',
-    component: NavbarComponent,
+    component: CreateEmployeeViewComponent,
     canActivate: [AuthGuard],
   },
   {
     path: 'employee/edit/:id',
-    component: NavbarComponent,
+    component: EditEmployeeViewComponent,
     canActivate: [AuthGuard],
   },
   {

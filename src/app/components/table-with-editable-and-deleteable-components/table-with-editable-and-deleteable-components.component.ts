@@ -12,6 +12,8 @@ export class TableWithEditableAndDeleteableComponentsComponent {
   @Input() data: any[] = [
   ];
 
+  @Input() tableName: string = "";
+
   @Input() onEditFunction: ((data: any) => void) | null = null;
   @Input() onDeleteFunction: ((data: any) => void) | null = null;
   @Input() onAddFunction: ((data: any) => void) | null = null;
