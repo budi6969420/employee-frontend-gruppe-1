@@ -7,6 +7,7 @@ import {SettingsViewComponent} from "./views/settings-view/settings-view.compone
 import {EmployeeViewComponent} from "./views/employee-view/employee-view.component";
 import {CreateEmployeeViewComponent} from "./views/create-employee-view/create-employee-view.component";
 import {EditEmployeeViewComponent} from "./views/edit-employee-view/edit-employee-view.component";
+import {QualificationsViewComponent} from "./views/qualifications-view/qualifications-view.component";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/employees', pathMatch: 'full' },
@@ -28,7 +29,7 @@ export const routes: Routes = [
   },
   {
     path: 'qualifications',
-    component: NavbarComponent,
+    component: QualificationsViewComponent,
     canActivate: [AuthGuard],
   },
   {

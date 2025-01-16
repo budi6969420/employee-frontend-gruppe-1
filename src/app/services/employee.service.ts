@@ -74,17 +74,7 @@ export class EmployeeService implements OnInit{
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`),
-      })
-      .pipe(
-        switchMap(() => {
-          this.employees = this.employees.filter(employee => employee.id !== employeeId);
-          return of(undefined);
-        }),
-        catchError((error) => {
-          console.error('Error removing employee', error);
-          return of(undefined);
-        })
-      );
+      });
   }
 
 }
