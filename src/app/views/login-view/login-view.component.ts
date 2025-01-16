@@ -2,15 +2,21 @@ import {Component, OnInit} from '@angular/core';
 import {TokenService} from "../../services/token.service";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-login-view',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './login-view.component.html',
   styleUrl: './login-view.component.css'
 })
 export class LoginViewComponent implements OnInit {
+
+  protected username: string = 'user';
+  protected password: string = 'test';
 
   protected tokenService: TokenService;
   private route: Router;
@@ -24,7 +30,7 @@ export class LoginViewComponent implements OnInit {
     }
 
   login(): void {
-    this.tokenService.getToken().subscribe({
+    this.tokenService.login(this.username, this.password).subscribe({
       complete: () => {
         this.navigateToHomeView();
       },

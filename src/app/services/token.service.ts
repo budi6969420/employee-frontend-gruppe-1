@@ -9,19 +9,17 @@ import { map, tap } from 'rxjs/operators';
 export class TokenService {
   private readonly apiUrl = 'https://authproxy.szut.dev';
   private readonly clientId = 'employee-management-service';
-  private readonly username = 'user';
-  private readonly password = 'test';
   private readonly tokenKey = 'employee_auth_token';
   private readonly tokenTimestampKey = 'employee_auth_token_timestamp';
   private readonly tokenExpiryKey = 'employee_auth_token_expiry';
 
   constructor(private http: HttpClient) {}
 
-  getToken(): Observable<string> {
+  login(username: string, password: string): Observable<string> {
     const existingToken = this.getTokenFromMemory();
     if (this.isTokenValid() && existingToken) return of(existingToken);
 
-    return this.fetchToken().pipe(
+    return this.fetchToken(username, password).pipe(
       tap(tokenResponse => {
         const { access_token, expires_in } = tokenResponse;
 
@@ -50,13 +48,13 @@ export class TokenService {
     }
     return false;
   }
-  private fetchToken(): Observable<any> {
+  private fetchToken(username: string, password: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
     const body = new HttpParams()
       .set('grant_type', 'password')
       .set('client_id', this.clientId)
-      .set('username', this.username)
-      .set('password', this.password);
+      .set('username', username)
+      .set('password', password);
 
     return this.http.post<any>(this.apiUrl, body.toString(), { headers });
   }
