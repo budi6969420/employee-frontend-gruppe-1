@@ -7,17 +7,13 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 @Injectable({
   providedIn: 'root'
 })
-export class QualificationService implements OnInit{
+export class QualificationService{
 
   public qualifications: Qualification[] = [];
   constructor(private tokenService: TokenService, private http: HttpClient) {
   }
 
-  ngOnInit(): void {
-    this.loadQualifications();
-  }
-
-  removeQualification(qualificationId: number): Observable<void> {
+  removeQualification(qualificationId: number) {
     const token = this.tokenService.getTokenFromMemory();
 
     if (!token) {
@@ -29,6 +25,10 @@ export class QualificationService implements OnInit{
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`),
+      }).subscribe({
+        next: ()=> {
+          this.qualifications = this.qualifications.filter(qualification => qualification.id !== qualificationId);
+        }
       });
   }
 
@@ -57,6 +57,27 @@ export class QualificationService implements OnInit{
 
     return this.http
       .get<Qualification[]>('https://api.employee.budidev.de/qualifications', {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('Authorization', `Bearer ${token}`),
+      });
+  }
+
+  createQualification(qualificationName: string) {
+    const token = this.tokenService.getTokenFromMemory();
+
+    if (!token) {
+      return of([]);
+    }
+
+    const body = {
+      skill: qualificationName,
+    };
+
+    return this.http
+      .post('https://api.employee.budidev.de/qualifications',
+        body,
+        {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`),

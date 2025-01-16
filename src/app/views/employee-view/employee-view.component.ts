@@ -36,10 +36,7 @@ export class EmployeeViewComponent implements OnInit {
   }
 
   protected onDelete(employeeId: number) : void {
-    this.employeeService.removeEmployee(employeeId).subscribe({
-      next: ()=> {
-      }
-    });
+    this.employeeService.removeEmployee(employeeId);
   }
 
   protected onAdd() : void {

@@ -33,7 +33,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'qualifications/create',
+    path: 'qualification/create',
     component: CreateQualificationViewComponent,
     canActivate: [AuthGuard],
   },

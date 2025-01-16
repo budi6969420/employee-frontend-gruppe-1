@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   TableWithEditableAndDeleteableComponentsComponent
 } from "../../components/table-with-editable-and-deleteable-components/table-with-editable-and-deleteable-components.component";
@@ -14,18 +14,19 @@ import {Router} from "@angular/router";
   templateUrl: './qualifications-view.component.html',
   styleUrl: './qualifications-view.component.css'
 })
-export class QualificationsViewComponent {
+export class QualificationsViewComponent implements OnInit {
 
   constructor(protected qualificationService: QualificationService, private router: Router) {
     this.onDelete = this.onDelete.bind(this);
     this.onAdd = this.onAdd.bind(this);
   }
 
+  ngOnInit(): void {
+        this.qualificationService.loadQualifications();
+    }
+
   protected onDelete(qualificationId: number) : void {
-    this.qualificationService.removeQualification(qualificationId).subscribe({
-      next: ()=> {
-      }
-    });
+    this.qualificationService.removeQualification(qualificationId);
   }
 
   protected onAdd() : void {

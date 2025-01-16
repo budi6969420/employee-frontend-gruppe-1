@@ -62,7 +62,7 @@ export class EmployeeService implements OnInit{
       );
   }
 
-  removeEmployee(employeeId: number): Observable<void> {
+  removeEmployee(employeeId: number) {
     const token = this.tokenService.getTokenFromMemory();
 
     if (!token) {
@@ -74,6 +74,10 @@ export class EmployeeService implements OnInit{
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`),
+      }).subscribe({
+        next: ()=> {
+          this.employees = this.employees.filter(employee => employee.id !== employeeId);
+        }
       });
   }
 
