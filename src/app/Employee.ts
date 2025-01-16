@@ -1,4 +1,5 @@
 export class Employee {
+  public name: string;
   constructor(public id?: number,
               public lastName?: string,
               public firstName?: string,
@@ -6,5 +7,6 @@ export class Employee {
               public postcode?: string,
               public city?: string,
               public phone?: string) {
+    this.name = `${this.lastName}, ${this.firstName}`;
   }
 }

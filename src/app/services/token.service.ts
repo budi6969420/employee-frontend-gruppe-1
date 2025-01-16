@@ -7,7 +7,7 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TokenService {
-  private readonly apiUrl = 'http://authproxy.szut.dev';
+  private readonly apiUrl = 'https://authproxy.szut.dev';
   private readonly clientId = 'employee-management-service';
   private readonly username = 'user';
   private readonly password = 'test';

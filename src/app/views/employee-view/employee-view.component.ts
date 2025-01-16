@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   TableWithEditableAndDeleteableComponentsComponent
 } from "../../components/table-with-editable-and-deleteable-components/table-with-editable-and-deleteable-components.component";
 import {EmployeeService} from "../../services/employee.service";
-import {Employee} from "../../Employee";
 import {Router} from "@angular/router";
 
 @Component({
@@ -15,9 +14,21 @@ import {Router} from "@angular/router";
   templateUrl: './employee-view.component.html',
   styleUrl: './employee-view.component.css'
 })
-export class EmployeeViewComponent {
+export class EmployeeViewComponent implements OnInit {
+  protected employeeService: EmployeeService;
+  private router: Router;
 
-  constructor(private employeeService: EmployeeService, private router: Router) {
+  constructor(employeeService: EmployeeService, router: Router) {
+    this.employeeService = employeeService;
+    this.router = router;
+
+    this.onEdit = this.onEdit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.onAdd = this.onAdd.bind(this);
+  }
+
+  ngOnInit(): void {
+    this.employeeService.loadEmployees();
   }
 
   protected onEdit(employeeId: number): void {

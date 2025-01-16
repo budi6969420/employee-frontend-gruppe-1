@@ -1,3 +1,8 @@
 <div>
-  <app-base-table [onEditFunction]="onEdit" [onDeleteFunction]="onDelete" [onAddFunction]="onAdd"/>
+  <app-base-table
+    [onEditFunction]="onEdit"
+    [onDeleteFunction]="onDelete"
+    [onAddFunction]="onAdd"
+    [data]="employeeService.employees">
+  </app-base-table>
 </div>
