@@ -1,8 +1,8 @@
 <div class="card p-3 gap-2">
   <h4>Create Qualification</h4>
   <div class="d-flex flex-column gap-3">
-    <input class="form-control" placeholder="Enter your Qualifications name here">
-    <button class="btn btn-success d-flex gap-2 justify-content-center">
+    <input class="form-control" placeholder="Enter your Qualifications name here" [(ngModel)]="qualificationName">
+    <button class="btn btn-success d-flex gap-2 justify-content-center" (click)="createQualification()">
       <i class="bi bi-floppy"></i>Save</button>
   </div>
 </div>
