@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';  // OnInit importieren
-import {SearchBarComponent} from "../search-bar/search-bar.component";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+
 
 @Component({
-  selector: 'app-team-members',
+  selector: 'app-base-table',
   templateUrl: './table-with-editable-and-deleteable-components.component.html',
   standalone: true,
   imports: [
@@ -13,16 +13,6 @@ import {SearchBarComponent} from "../search-bar/search-bar.component";
 export class TableWithEditableAndDeleteableComponentsComponent {
 
   @Input() data: any[] = [
-    { id: 1, name: 'John Doe' },
-    { id: 2, name: 'Jane Smith' },
-    { id: 3, name: 'Alice Johnson' },
-    { id: 4, name: 'Bob Brown' },
-    { id: 5, name: 'Charlie Davis' },
-    { id: 6, name: 'Dana Williams' },
-    { id: 7, name: 'Eve Clark' },
-    { id: 8, name: 'Frank Moore' },
-    { id: 9, name: 'Grace Taylor' },
-    { id: 10, name: 'Hank Wilson' }
   ];
 
 
@@ -43,6 +33,8 @@ export class TableWithEditableAndDeleteableComponentsComponent {
     }
   }
 
+  @Input() tableName: string = "";
+
   @Input() onEditFunction: ((data: any) => void) | null = null;
   @Input() onDeleteFunction: ((data: any) => void) | null = null;
   @Input() onAddFunction: ((data: any) => void) | null = null;
@@ -51,18 +43,6 @@ export class TableWithEditableAndDeleteableComponentsComponent {
 
   @Output() edit = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
-
-  onAdd() {
-    // #Todo need the Add Page
-  }
-
-  onEdit(member: any) {
-    this.edit.emit(member);  // Edit-Event auslösen
-  }
-
-  onDelete(member: any) {
-    this.delete.emit(member);  // Delete-Event auslösen
-  }
 
   protected readonly menubar = menubar;
 }

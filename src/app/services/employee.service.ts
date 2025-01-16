@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
@@ -8,10 +8,34 @@ import {TokenService} from "./token.service";
 @Injectable({
   providedIn: 'root',
 })
-export class EmployeeService {
+export class EmployeeService implements OnInit{
   public employees: Employee[] = [];
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
+
+  ngOnInit(): void {
+    this.loadEmployees();
+  }
+
+  loadEmployees(): void {
+    const token = this.tokenService.getTokenFromMemory();
+
+    if (!token) {
+      this.employees = [];
+      return;
+    }
+
+    this.getEmployees().subscribe((employees) => {
+      this.employees = employees.map((employee: Employee) => new Employee(employee.id,
+        employee.lastName,
+        employee.firstName,
+        employee.street,
+        employee.postcode,
+        employee.city,
+        employee.phone));
+      console.log(this.employees);
+    });
+  }
 
   getEmployees(): Observable<Employee[]> {
     const token = this.tokenService.getTokenFromMemory();
@@ -37,4 +61,24 @@ export class EmployeeService {
         })
       );
   }
+
+  removeEmployee(employeeId: number) {
+    const token = this.tokenService.getTokenFromMemory();
+
+    if (!token) {
+      return of(undefined);
+    }
+
+    return this.http
+      .delete<void>(`https://api.employee.budidev.de/employees/${employeeId}`, {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('Authorization', `Bearer ${token}`),
+      }).subscribe({
+        next: ()=> {
+          this.employees = this.employees.filter(employee => employee.id !== employeeId);
+        }
+      });
+  }
+
 }

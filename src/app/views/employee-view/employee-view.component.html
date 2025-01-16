@@ -1,0 +1,9 @@
+<div>
+  <app-base-table
+    tableName="Team Members"
+    [onEditFunction]="onEdit"
+    [onDeleteFunction]="onDelete"
+    [onAddFunction]="onAdd"
+    [data]="employeeService.employees">
+  </app-base-table>
+</div>
