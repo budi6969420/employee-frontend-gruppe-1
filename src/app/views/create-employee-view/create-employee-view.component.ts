@@ -8,8 +8,8 @@ import {QualificationService} from "../../services/qualification.service";
 import {Router} from "@angular/router";
 import {EmployeeService} from "../../services/employee.service";
 import {
-  QualificationSelectionMenuComponent
-} from "../../components/qualification-selection-menu/qualification-selection-menu.component";
+  QualificationSelectionTableComponent
+} from "../../components/qualification-selection-table/qualification-selection-table.component";
 
 @Component({
   selector: 'app-create-employee-view',
@@ -17,31 +17,36 @@ import {
   imports: [
     EmployeeInformationComponent,
     TableWithEditableAndDeleteableComponentsComponent,
-    QualificationSelectionMenuComponent
+    QualificationSelectionTableComponent,
   ],
   templateUrl: './create-employee-view.component.html',
   styleUrl: './create-employee-view.component.css'
 })
-export class CreateEmployeeViewComponent implements OnInit {
+export class CreateEmployeeViewComponent {
   qualifications: Qualification[];
   selectedQualifications: Qualification[];
-  isPopupVisible: boolean = false;
 
   constructor(private qualificationService: QualificationService,
               private employeeService: EmployeeService,
               private router: Router) {
+    this.onDelete = this.onDelete.bind(this);
+    this.onAdd = this.onAdd.bind(this);
+    this.onEdit = this.onEdit.bind(this);
     this.qualifications = [];
     this.selectedQualifications = [];
   }
 
-  ngOnInit(): void {
-    this.qualificationService.loadQualifications();
-    this.qualifications = this.qualificationService.qualifications;
+
+  protected onDelete(qualificationId: number) : void {
+    this.qualificationService.removeQualification(qualificationId);
   }
 
-  openPopup(): void {
-    this.isPopupVisible = true
+  protected onEdit(qualificationId: number) : void {
+    this.router.navigate(['qualification', 'edit', String(qualificationId)]);
   }
 
+  protected onAdd() : void {
+    this.router.navigate(['qualification', 'create']);
+  }
 
 }

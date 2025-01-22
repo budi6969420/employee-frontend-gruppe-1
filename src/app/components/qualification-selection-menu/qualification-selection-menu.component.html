@@ -1,7 +1,27 @@
-<div class="popup-overlay" *ngIf="isVisible">
-  <div class="popup-content">
-    <h2>Popup-Titel</h2>
-    <p>Das ist der Inhalt des Popups.</p>
-    <button class="btn-close" (click)="closePopup()">Schließen</button>
+<div *ngIf="isVisible" class="popup-overlay">
+  <div class="popup-container">
+    <div>
+      <h2>Select Qualifications</h2>
+      <button class="btn" (click)="onAddFunction()">
+        <i class="bi bi-plus-lg fs-3" ></i>
+      </button>
+    </div>
+    <div *ngFor="let qualification of qualifications" class="qualification-item">
+      <label>
+        <input
+          type="checkbox"
+          [checked]="isSelected(qualification)"
+          (change)="toggleSelection(qualification)"
+        />
+        {{ qualification.name }}
+      </label>
+    </div>
+    <button class="btn" (click)="onAddFunction()">
+      <i class="bi bi-plus fs-3" ></i>
+    </button>
+    <div class="popup-actions">
+      <button (click)="confirmSelection()">Bestätigen</button>
+      <button (click)="closePopup()">Abbrechen</button>
+    </div>
   </div>
 </div>
