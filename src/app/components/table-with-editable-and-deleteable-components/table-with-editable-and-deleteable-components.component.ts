@@ -18,10 +18,4 @@ export class TableWithEditableAndDeleteableComponentsComponent {
   @Input() onDeleteFunction: ((data: any) => void) | null = null;
   @Input() onAddFunction: ((data: any) => void) | null = null;
 
-
-
-  @Output() edit = new EventEmitter<any>();
-  @Output() delete = new EventEmitter<any>();
-
-  protected readonly menubar = menubar;
 }
