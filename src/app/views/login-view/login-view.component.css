@@ -2,7 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh
+  height: 80vh;
+  width: 500px;
 }
 .btn-purple {
   background-color: #6f42c1;

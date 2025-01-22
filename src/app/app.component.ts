@@ -4,11 +4,12 @@ import {NavbarComponent} from "./components/navbar/navbar.component";
 import {NavigationEnd, Router, RouterOutlet} from "@angular/router";
 import {CreateEmployeeViewComponent} from "./views/create-employee-view/create-employee-view.component";
 import {EditEmployeeViewComponent} from "./views/edit-employee-view/edit-employee-view.component";
+import {ErrorBannerComponent} from "./components/error-banner/error-banner.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, RouterOutlet, CreateEmployeeViewComponent, EditEmployeeViewComponent],
+  imports: [CommonModule, NavbarComponent, RouterOutlet, CreateEmployeeViewComponent, EditEmployeeViewComponent, ErrorBannerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

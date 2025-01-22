@@ -1,3 +1,45 @@
-<div class="container">
-  <button class="btn btn-purple" (click)="login()">Sign in</button>
+<div class="p-3 gap-2 vh-100 m-auto align-content-center" style="width: 500px">
+    <h3>Welcome to CrewMate</h3>
+    <h5>Login to Continue</h5>
+    <br>
+    <div class="d-flex flex-column gap-3">
+        <input
+                type="text"
+                class="form-control"
+                placeholder="Enter your username"
+                [(ngModel)]="username"
+                #usernameInput="ngModel"
+                required
+        >
+
+        <div class="input-group">
+            <input
+                    id="Password"
+                    [type]="passwordVisible ? 'text' : 'password'"
+                    class="form-control"
+                    [(ngModel)]="password"
+                    placeholder="Enter your password"
+                    #passwordInput="ngModel"
+                    required
+            >
+            <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    (click)="togglePasswordVisibility()">
+                <i class="bi" [ngClass]="passwordVisible ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </button>
+        </div>
+
+        <div *ngIf="(usernameInput.invalid || passwordInput.invalid) && (usernameInput.touched || passwordInput.touched)" class="text-danger mt-2">
+            Please fill in both fields correctly.
+        </div>
+
+        <button
+                class="btn btn-primary d-flex gap-2 justify-content-center"
+                (click)="login()"
+                [disabled]="usernameInput.invalid || passwordInput.invalid"
+        >
+            <i class="bi bi-box-arrow-in-right"></i>Login
+        </button>
+    </div>
 </div>

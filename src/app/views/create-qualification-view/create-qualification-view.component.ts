@@ -2,12 +2,15 @@ import { Component } from '@angular/core';
 import {QualificationService} from "../../services/qualification.service";
 import {FormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
+import {NgIf} from "@angular/common";
+import {ErrorService} from "../../services/error.service";
 
 @Component({
   selector: 'app-create-qualification-view',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './create-qualification-view.component.html',
   styleUrl: './create-qualification-view.component.css'
@@ -15,7 +18,7 @@ import {Router} from "@angular/router";
 export class CreateQualificationViewComponent {
 
   qualificationName: string = '';
-  constructor(private qualificationService: QualificationService, private router: Router) {
+  constructor(private qualificationService: QualificationService, private router: Router, private errorService: ErrorService) {
   }
 
   protected createQualification() {
@@ -25,7 +28,7 @@ export class CreateQualificationViewComponent {
         this.router.navigate(['/qualifications']);
       },
       error: (err) => {
-        console.error('Error creating qualification:', err);
+        this.errorService.setError("qualification creation failed: qualification name already exists");
       }
     });
   }
