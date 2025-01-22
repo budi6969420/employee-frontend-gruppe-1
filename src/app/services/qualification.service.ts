@@ -1,5 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
-import {Observable, of} from "rxjs";
+import {catchError, map, Observable, of} from "rxjs";
 import {Qualification} from "../Qualification";
 import {TokenService} from "./token.service";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
@@ -30,6 +30,12 @@ export class QualificationService{
           this.qualifications = this.qualifications.filter(qualification => qualification.id !== qualificationId);
         }
       });
+  }
+  
+  getQualification(id: number): Observable<Qualification | undefined> {
+    return this.getQualifications().pipe(
+      map(qualifications => qualifications.find(q => q.id === id))
+    );
   }
 
   loadQualifications(): void {
@@ -83,4 +89,30 @@ export class QualificationService{
           .set('Authorization', `Bearer ${token}`),
       });
   }
+
+  updateQualification(qualificationId: number, newSkill: string): Observable<Qualification | undefined> {
+    const token = this.tokenService.getTokenFromMemory();
+
+    if (!token) {
+      return of(undefined);
+    }
+
+    const body = {
+      skill: newSkill,
+    };
+
+    return this.http
+      .put<Qualification>(`https://api.employee.budidev.de/qualifications/${qualificationId}`, body, {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('Authorization', `Bearer ${token}`),
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Error updating qualification', error);
+          return of(undefined);
+        })
+      );
+  }
+
 }
