@@ -4,5 +4,8 @@
   </div>
   <div class="col-12 col-md-6">
     <app-base-table tableName="Qualifications"></app-base-table>
+    <button></button>
   </div>
+  <button class="btn btn-primary" (click)="openPopup()">Popup anzeigen</button>
+  <app-qualification-selection-menu [isVisible]="isPopupVisible"></app-qualification-selection-menu>
 </div>

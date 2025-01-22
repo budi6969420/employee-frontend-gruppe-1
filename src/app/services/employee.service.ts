@@ -1,21 +1,17 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
-import { Employee } from '../Employee'; 
+import { catchError } from 'rxjs/operators';
+import { Employee } from '../Employee';
 import { TokenService } from "./token.service";
 
 @Injectable({
   providedIn: 'root',
 })
-export class EmployeeService implements OnInit {
+export class EmployeeService{
   public employees: Employee[] = [];
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
-
-  ngOnInit(): void {
-    this.loadEmployees();
-  }
 
   loadEmployees(): void {
     const token = this.tokenService.getTokenFromMemory();
@@ -58,7 +54,7 @@ export class EmployeeService implements OnInit {
       );
   }
 
-  getQualification(id: number): Observable<Employee | undefined> {
+  getEmployee(id: number): Observable<Employee | undefined> {
     const token = this.tokenService.getTokenFromMemory();
 
     if (!token) {
