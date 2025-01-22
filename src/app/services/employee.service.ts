@@ -1,14 +1,14 @@
-import {Injectable, OnInit} from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { Employee } from '../Employee';
-import {TokenService} from "./token.service";
+import { Employee } from '../Employee'; 
+import { TokenService } from "./token.service";
 
 @Injectable({
   providedIn: 'root',
 })
-export class EmployeeService implements OnInit{
+export class EmployeeService implements OnInit {
   public employees: Employee[] = [];
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
@@ -32,8 +32,8 @@ export class EmployeeService implements OnInit{
         employee.street,
         employee.postcode,
         employee.city,
-        employee.phone));
-      console.log(this.employees);
+        employee.phone,
+        employee.skillSet));
     });
   }
 
@@ -51,10 +51,6 @@ export class EmployeeService implements OnInit{
           .set('Authorization', `Bearer ${token}`),
       })
       .pipe(
-        switchMap((employees) => {
-          this.employees = employees;
-          return of(this.employees);
-        }),
         catchError((error) => {
           console.error('Error fetching employees', error);
           return of([]);
@@ -62,7 +58,70 @@ export class EmployeeService implements OnInit{
       );
   }
 
-  removeEmployee(employeeId: number) {
+  getQualification(id: number): Observable<Employee | undefined> {
+    const token = this.tokenService.getTokenFromMemory();
+
+    if (!token) {
+      return of(undefined);
+    }
+
+    return this.http
+      .get<Employee>(`https://api.employee.budidev.de/employees/${id}`, {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('Authorization', `Bearer ${token}`),
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching employees', error);
+          return of(undefined);
+        })
+      );
+  }
+
+  createEmployee(employee: Employee): Observable<Employee | undefined>  {
+    const token = this.tokenService.getTokenFromMemory();
+
+    if (!token) {
+      return of(undefined);
+    }
+
+    return this.http
+      .post<Employee>('https://api.employee.budidev.de/employees', employee, {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('Authorization', `Bearer ${token}`),
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Error creating employee', error);
+          return of(undefined);
+        })
+      );
+  }
+
+  updateEmployee(employee: Employee): Observable<Employee | undefined> {
+    const token = this.tokenService.getTokenFromMemory();
+
+    if (!token) {
+      return of(undefined);
+    }
+
+    return this.http
+      .put<Employee>(`https://api.employee.budidev.de/employees/${employee.id}`, employee, {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('Authorization', `Bearer ${token}`),
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Error updating employee', error);
+          return of(undefined);
+        })
+      );
+  }
+
+  removeEmployee(employeeId: number): Observable<void> {
     const token = this.tokenService.getTokenFromMemory();
 
     if (!token) {
@@ -74,11 +133,12 @@ export class EmployeeService implements OnInit{
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`),
-      }).subscribe({
-        next: ()=> {
-          this.employees = this.employees.filter(employee => employee.id !== employeeId);
-        }
-      });
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Error deleting employee', error);
+          return of(undefined);
+        })
+      );
   }
-
 }
