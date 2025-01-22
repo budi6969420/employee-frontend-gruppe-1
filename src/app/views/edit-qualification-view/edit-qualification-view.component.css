@@ -1,0 +1,4 @@
+.btn-blue {
+  background: var(--text-selected-page);
+  color: var(--bg-primary);
+}

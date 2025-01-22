@@ -19,6 +19,7 @@ export class QualificationsViewComponent implements OnInit {
   constructor(protected qualificationService: QualificationService, private router: Router) {
     this.onDelete = this.onDelete.bind(this);
     this.onAdd = this.onAdd.bind(this);
+    this.onEdit = this.onEdit.bind(this);
   }
 
   ngOnInit(): void {
@@ -27,6 +28,10 @@ export class QualificationsViewComponent implements OnInit {
 
   protected onDelete(qualificationId: number) : void {
     this.qualificationService.removeQualification(qualificationId);
+  }
+
+  protected onEdit(qualificationId: number) : void {
+    this.router.navigate(['qualification', 'edit', String(qualificationId)]);
   }
 
   protected onAdd() : void {
