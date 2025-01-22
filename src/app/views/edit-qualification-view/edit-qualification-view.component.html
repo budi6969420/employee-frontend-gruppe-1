@@ -1,0 +1,22 @@
+<div class="card p-3 gap-2">
+  <h4>Edit Qualification</h4>
+  <div class="d-flex flex-column gap-3">
+    <input
+      class="form-control"
+      placeholder="Enter your Qualifications name here"
+      [(ngModel)]="qualification.skill"
+      #qualificationInput="ngModel"
+      required
+    >
+    <div *ngIf="qualificationInput.invalid && qualificationInput.touched" class="text-danger mt-2">
+      Qualification name is required.
+    </div>
+    <button
+      class="btn d-flex gap-2 justify-content-center btn-blue"
+      (click)="editQualification()"
+      [disabled]="qualificationInput.invalid"
+    >
+      <i class="bi bi-pencil-square"></i>Edit
+    </button>
+  </div>
+</div>

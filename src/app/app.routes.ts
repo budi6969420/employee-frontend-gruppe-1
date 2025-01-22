@@ -8,6 +8,7 @@ import {CreateEmployeeViewComponent} from "./views/create-employee-view/create-e
 import {EditEmployeeViewComponent} from "./views/edit-employee-view/edit-employee-view.component";
 import {QualificationsViewComponent} from "./views/qualifications-view/qualifications-view.component";
 import {CreateQualificationViewComponent} from "./views/create-qualification-view/create-qualification-view.component";
+import { EditQualificationViewComponent } from "./views/edit-qualification-view/edit-qualification-view.component";
 
 export const routes: Routes = [
   { path: '', redirectTo: '/employees', pathMatch: 'full' },
@@ -35,6 +36,11 @@ export const routes: Routes = [
   {
     path: 'qualification/create',
     component: CreateQualificationViewComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'qualification/edit/:id',
+    component: EditQualificationViewComponent,
     canActivate: [AuthGuard],
   },
   {
