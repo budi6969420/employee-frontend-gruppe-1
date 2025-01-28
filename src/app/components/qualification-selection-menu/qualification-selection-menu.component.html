@@ -2,23 +2,20 @@
   <div class="popup-container">
     <div>
       <h2>Select Qualifications</h2>
-      <button class="btn" (click)="onAddFunction()">
-        <i class="bi bi-plus-lg fs-3" ></i>
-      </button>
     </div>
-    <div *ngFor="let qualification of qualifications" class="qualification-item">
-      <label>
-        <input
-          type="checkbox"
-          [checked]="isSelected(qualification)"
-          (change)="toggleSelection(qualification)"
-        />
-        {{ qualification.name }}
-      </label>
-    </div>
-    <button class="btn" (click)="onAddFunction()">
-      <i class="bi bi-plus fs-3" ></i>
-    </button>
+    @for (qualification of qualifications; track qualification) {
+      <div class="qualification-item">
+        <label>
+          <input
+            type="checkbox"
+            [checked]="isSelected(qualification)"
+            (change)="toggleSelection(qualification)"
+          />
+          {{ qualification.name }}
+        </label>
+      </div>
+    }
+
     <div class="popup-actions">
       <button (click)="confirmSelection()">Bestätigen</button>
       <button (click)="closePopup()">Abbrechen</button>

@@ -1,13 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
-import {Router} from "@angular/router";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-qualification-selection-menu',
   standalone: true,
   imports: [
-    NgIf,
-    NgForOf
+    NgIf
   ],
   templateUrl: './qualification-selection-menu.component.html',
   styleUrl: './qualification-selection-menu.component.css'
@@ -22,7 +20,6 @@ export class QualificationSelectionMenuComponent {
 
   private selected: any[] = []; // Interne Liste der ausgewählten Qualifikationen
 
-  constructor(private router: Router) { }
 
   isSelected(qualification: any): boolean {
     return this.selected.some((q) => q.id === qualification.id); // Prüft, ob die Qualifikation ausgewählt ist
@@ -34,6 +31,7 @@ export class QualificationSelectionMenuComponent {
     } else {
       this.selected.push(qualification); // Füge zur Auswahl hinzu
     }
+    this.sortQualification();
   }
 
   confirmSelection(): void {
@@ -45,7 +43,20 @@ export class QualificationSelectionMenuComponent {
     this.isVisibleChange.emit(false); // Informiere die Parent-Komponente, dass das Popup geschlossen werden soll
   }
 
-  onAddFunction() {
-    this.router.navigate(['qualification', 'create']);
+  sortQualification(): void {
+    const selectedIds = new Set(this.selected.map(item => item.id));
+    const sortedItems = this.qualifications.sort((a, b) => {
+      const isASelected = selectedIds.has(a.id);
+      const isBSelected = selectedIds.has(b.id);
+
+      if (isASelected && !isBSelected) {
+        return -1; // a kommt vor b
+      }
+      if (!isASelected && isBSelected) {
+        return 1; // b kommt vor a
+      }
+      // Wenn beide im gleichen "Status" sind, alphabetisch sortieren
+      return a.name.localeCompare(b.name);
+    });
   }
 }

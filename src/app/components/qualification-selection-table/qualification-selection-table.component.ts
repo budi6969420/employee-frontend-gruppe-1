@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {
   TableWithEditableAndDeleteableComponentsComponent
 } from "../table-with-editable-and-deleteable-components/table-with-editable-and-deleteable-components.component";
@@ -21,6 +21,7 @@ import {
   styleUrl: './qualification-selection-table.component.css'
 })
 export class QualificationSelectionTableComponent implements OnInit {
+  @Output() selected = new EventEmitter<any[]>();
   protected qualifications: Qualification[];
   protected selectedQualifications: Qualification[];
   isPopupVisible: boolean = false;
@@ -37,7 +38,6 @@ export class QualificationSelectionTableComponent implements OnInit {
   ngOnInit(): void {
     this.qualificationService.getQualifications().subscribe(q => {
       this.qualifications = q.map(x => new Qualification(x.id, x.skill));
-      console.log(this.qualifications);
     });
 
   }
@@ -48,6 +48,7 @@ export class QualificationSelectionTableComponent implements OnInit {
 
   onPopupVisibilityChange(isVisible: boolean): void {
     this.isPopupVisible = isVisible;
+
   }
 
   protected onDelete(qualificationId: number) : void {
@@ -61,4 +62,10 @@ export class QualificationSelectionTableComponent implements OnInit {
   protected onAdd() : void {
     this.openPopup();
   }
+
+  onSelectedQualificationsChange($event: any[]) {
+    this.selectedQualifications = $event;
+    this.selected.emit($event);
+  }
+
 }

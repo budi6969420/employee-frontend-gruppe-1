@@ -1,8 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {EmployeeInformationComponent} from "../../components/employee-information/employee-information.component";
-import {
-  TableWithEditableAndDeleteableComponentsComponent
-} from "../../components/table-with-editable-and-deleteable-components/table-with-editable-and-deleteable-components.component";
 import {Qualification} from "../../Qualification";
 import {QualificationService} from "../../services/qualification.service";
 import {Router} from "@angular/router";
@@ -10,13 +7,13 @@ import {EmployeeService} from "../../services/employee.service";
 import {
   QualificationSelectionTableComponent
 } from "../../components/qualification-selection-table/qualification-selection-table.component";
+import {Employee} from "../../Employee";
 
 @Component({
   selector: 'app-create-employee-view',
   standalone: true,
   imports: [
     EmployeeInformationComponent,
-    TableWithEditableAndDeleteableComponentsComponent,
     QualificationSelectionTableComponent,
   ],
   templateUrl: './create-employee-view.component.html',
@@ -25,6 +22,7 @@ import {
 export class CreateEmployeeViewComponent {
   qualifications: Qualification[];
   selectedQualifications: Qualification[];
+  newEmployee: Employee;
 
   constructor(private qualificationService: QualificationService,
               private employeeService: EmployeeService,
@@ -34,6 +32,7 @@ export class CreateEmployeeViewComponent {
     this.onEdit = this.onEdit.bind(this);
     this.qualifications = [];
     this.selectedQualifications = [];
+    this.newEmployee = new Employee();
   }
 
 
@@ -47,6 +46,22 @@ export class CreateEmployeeViewComponent {
 
   protected onAdd() : void {
     this.router.navigate(['qualification', 'create']);
+  }
+
+  onAddFunction() {
+    this.router.navigate(['qualification', 'create']);
+  }
+
+  onSelectedQualificationChange($event: any[]): void {
+    this.selectedQualifications = $event;
+    this.newEmployee.skillSet = $event.map(skill => skill.id);
+    console.log('quali ' + this.newEmployee);
+  }
+
+  onInformationSubmit($event: Employee): void {
+    this.newEmployee = $event;
+    console.log('info ');
+    console.log(this.newEmployee);
   }
 
 }

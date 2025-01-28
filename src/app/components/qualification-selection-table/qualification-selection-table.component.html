@@ -1,8 +1,14 @@
+<app-qualification-selection-menu
+  [qualifications]="qualifications"
+  [isVisible]="isPopupVisible"
+  (selectedQualifications)="onSelectedQualificationsChange($event)"
+  (isVisibleChange)="onPopupVisibilityChange($event)">
+</app-qualification-selection-menu>
+
 <app-base-table
   tableName="Qualifications"
   [onDeleteFunction]="onDelete"
   [onAddFunction]="onAdd"
-  [onEditFunction]="onEdit"
   [data]="selectedQualifications">
 </app-base-table>
-<app-qualification-selection-menu [qualifications]="qualifications" [isVisible]="isPopupVisible" (isVisibleChange)="onPopupVisibilityChange($event)"></app-qualification-selection-menu>
+
