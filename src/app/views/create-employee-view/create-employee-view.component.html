@@ -3,9 +3,6 @@
     <app-employee-information (submit)="onInformationSubmit($event)"></app-employee-information>
   </div>
   <div class="col-12 col-md-6">
-    <button class="btn" (click)="onAddFunction()">
-      <i class="bi bi-plus-lg fs-3" ></i>
-    </button>
     <app-qualification-selection-table
       (selected)="onSelectedQualificationChange($event)">
     </app-qualification-selection-table>

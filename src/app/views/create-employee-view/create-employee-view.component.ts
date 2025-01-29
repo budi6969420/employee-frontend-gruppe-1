@@ -48,10 +48,6 @@ export class CreateEmployeeViewComponent {
     this.router.navigate(['qualification', 'create']);
   }
 
-  onAddFunction() {
-    this.router.navigate(['qualification', 'create']);
-  }
-
   onSelectedQualificationChange($event: any[]): void {
     this.selectedQualifications = $event;
   }

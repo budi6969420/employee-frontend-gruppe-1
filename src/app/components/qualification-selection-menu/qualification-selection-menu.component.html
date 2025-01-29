@@ -15,6 +15,15 @@
         </label>
       </div>
     }
+    <button class="newButton d-block text-start" (click)="toggleNewQualification()">
+      <i class="bi fs-3" [ngClass]="isNewQualificationVisible ? 'bi-dash-lg' : 'bi-plus-lg'" ></i>
+    </button>
+
+<!--    (qualificationCreated?.)="onQualificationCreated()"-->
+    <app-create-qualification-view
+      [hasToRedirect]="false"
+      *ngIf="isNewQualificationVisible">
+    </app-create-qualification-view>
 
     <div class="popup-actions">
       <button (click)="confirmSelection()">Submit</button>

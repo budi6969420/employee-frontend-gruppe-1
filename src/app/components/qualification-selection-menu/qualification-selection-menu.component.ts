@@ -1,52 +1,78 @@
-import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
-import {NgIf} from "@angular/common";
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
+import {NgClass, NgIf} from "@angular/common";
+import {
+  CreateQualificationViewComponent
+} from "../../views/create-qualification-view/create-qualification-view.component";
+import {QualificationService} from "../../services/qualification.service";
 
 @Component({
   selector: 'app-qualification-selection-menu',
   standalone: true,
   imports: [
-    NgIf
+    NgIf,
+    CreateQualificationViewComponent,
+    NgClass
   ],
   templateUrl: './qualification-selection-menu.component.html',
   styleUrl: './qualification-selection-menu.component.css'
 })
-export class QualificationSelectionMenuComponent {
+export class QualificationSelectionMenuComponent implements OnInit{
 
-
-  @Input() isVisible: boolean = false; // Steuert die Sichtbarkeit des Popups
-  @Input() qualifications: any[] = []; // Liste von Qualifikationen
-  @Output() selectedQualifications = new EventEmitter<any[]>(); // Gibt die ausgewählten Qualifikationen zurück
-  @Output() isVisibleChange = new EventEmitter<boolean>(); // Gibt die Sichtbarkeitsänderung zurück
+  @Input() isVisible: boolean = false;
+  @Input() qualifications: any[] = [];
+  @Output() selectedQualifications = new EventEmitter<any[]>();
+  @Output() isVisibleChange = new EventEmitter<boolean>();
 
   @Input() selectedQualificationsList: any[] = [];
-  private selected: any[] = []; // Interne Liste der ausgewählten Qualifikationen
+  private selected: any[] = [];
+  protected isNewQualificationVisible: boolean = false;
+
+  constructor(private qualificationService: QualificationService,) {
+  }
+
+  ngOnInit(): void {
+    this.sortQualification();
+  }
 
   ngOnChanges(changes: SimpleChanges){
     if (changes['selectedQualificationsList']) {
-      this.selected = [...this.selectedQualificationsList]; // Parent Selektion übernehmen
+      this.selected = [...this.selectedQualificationsList];
     }
   }
 
   isSelected(qualification: any): boolean {
-    return this.selected.some((q) => q.id === qualification.id); // Prüft, ob die Qualifikation ausgewählt ist
+    return this.selected.some((q) => q.id === qualification.id);
   }
 
   toggleSelection(qualification: any): void {
     if (this.isSelected(qualification)) {
-      this.selected = this.selected.filter((q) => q.id !== qualification.id); // Entferne aus der Auswahl
+      this.selected = this.selected.filter((q) => q.id !== qualification.id);
     } else {
-      this.selected.push(qualification); // Füge zur Auswahl hinzu
+      this.selected.push(qualification);
     }
     this.sortQualification();
   }
 
   confirmSelection(): void {
-    this.selectedQualifications.emit(this.selected); // Sende die ausgewählten Qualifikationen zurück
-    this.isVisibleChange.emit(false); // Schließe das Popup
+    this.selectedQualifications.emit(this.selected);
+    this.isVisibleChange.emit(false);
   }
 
   closePopup(): void {
-    this.isVisibleChange.emit(false); // Informiere die Parent-Komponente, dass das Popup geschlossen werden soll
+    this.selected = [...this.selectedQualificationsList];
+    this.isNewQualificationVisible = false;
+    this.isVisibleChange.emit(false);
+  }
+
+  toggleNewQualification(): void {
+    this.isNewQualificationVisible = !this.isNewQualificationVisible;
+  }
+
+  onQualificationCreated() {
+    alert('yo');
+    console.log("Qualification created");
+    this.isNewQualificationVisible = false;
+    this.qualificationService.getQualifications().subscribe(x => x);
   }
 
   sortQualification(): void {
