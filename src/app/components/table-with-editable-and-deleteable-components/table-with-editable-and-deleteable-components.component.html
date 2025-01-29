@@ -1,5 +1,5 @@
 <div class="m-auto" style="max-width: 930px;">
-  @if (showSearchbar) {
+  @if (searchFilterFunction) {
     <div class="d-flex align-items-baseline justify-content-end position-relative">
       <app-search-bar (search)="onSearch($event)"></app-search-bar>
     </div>

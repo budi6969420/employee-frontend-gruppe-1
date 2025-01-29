@@ -16,11 +16,11 @@ import {NgTemplateOutlet} from "@angular/common";
 export class TableWithEditableAndDeleteableComponentsComponent {
   @Input() data: any[] = [];
   @Input() tableName: string = "";
-  @Input() showSearchbar: boolean = false;
 
   @Input() onEditFunction: ((data: any) => void) | null = null;
   @Input() onDeleteFunction: ((data: any) => void) | null = null;
   @Input() onAddFunction: ((data: any) => void) | null = null;
+  @Input() searchFilterFunction: ((member: any, term: string) => Boolean) | null = null;
   @Input() filterComponent: TemplateRef<any> | null = null;
 
   filteredData: any[] | null = null;
@@ -33,7 +33,7 @@ export class TableWithEditableAndDeleteableComponentsComponent {
   onSearch(term: string) {
     if (term) {
       this.filteredData = this.data.filter((member) =>
-        member.name.toLowerCase().includes(term)
+        this.searchFilterFunction && this.searchFilterFunction(member, term)
       );
     } else {
       this.filteredData = [...this.data];  // Alles anzeigen, wenn das Suchfeld leer ist

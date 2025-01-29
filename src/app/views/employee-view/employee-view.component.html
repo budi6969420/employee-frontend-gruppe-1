@@ -5,7 +5,7 @@
     [onDeleteFunction]="onDelete"
     [onAddFunction]="onAdd"
     [data]="filteredData"
-    [showSearchbar] = "true"
+    [searchFilterFunction] = "searchFilterFunction"
     [filterComponent]="filterTemplate">
     <ng-template #filterTemplate>
       <app-filter

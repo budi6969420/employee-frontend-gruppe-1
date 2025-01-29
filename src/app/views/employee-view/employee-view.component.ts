@@ -70,4 +70,12 @@ export class EmployeeViewComponent implements OnInit {
     this.filteredData = filteredData;
   }
 
+  searchFilterFunction(employee: Employee, term: string): Boolean {
+    return employee.lastName!.toLowerCase().includes(term.toLowerCase()) ||
+      employee.firstName!.toLowerCase().includes(term.toLowerCase()) ||
+      employee.name!.toLowerCase().includes(term.toLowerCase()) ||
+      (employee.firstName! + " " + employee.lastName!).toLowerCase().includes(term.toLowerCase()) ||
+      (employee.lastName! + " " + employee.firstName!).toLowerCase().includes(term.toLowerCase());
+  }
+
 }

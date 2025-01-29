@@ -4,6 +4,7 @@ import {
 } from "../../components/table-with-editable-and-deleteable-components/table-with-editable-and-deleteable-components.component";
 import {QualificationService} from "../../services/qualification.service";
 import {Router} from "@angular/router";
+import {Qualification} from "../../Qualification";
 
 @Component({
   selector: 'app-qualifications-view',
@@ -36,6 +37,10 @@ export class QualificationsViewComponent implements OnInit {
 
   protected onAdd() : void {
     this.router.navigate(['qualification', 'create']);
+  }
+
+  protected searchFilterFunction(qualification: Qualification, term: string): Boolean {
+    return qualification.skill!.toLowerCase().includes(term.toLowerCase());
   }
 
 }
