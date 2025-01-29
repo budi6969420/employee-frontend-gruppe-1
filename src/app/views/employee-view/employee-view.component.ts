@@ -4,12 +4,19 @@ import {
 } from "../../components/table-with-editable-and-deleteable-components/table-with-editable-and-deleteable-components.component";
 import {EmployeeService} from "../../services/employee.service";
 import {Router} from "@angular/router";
+import {FilterDialogComponent} from "../../components/filter-dialog/filter-dialog.component";
+import {Qualification} from "../../Qualification";
+import {Employee} from "../../Employee";
+import {NgIf} from "@angular/common";
+import {QualificationService} from "../../services/qualification.service";
 
 @Component({
   selector: 'app-employee-view',
   standalone: true,
   imports: [
-    TableWithEditableAndDeleteableComponentsComponent
+    TableWithEditableAndDeleteableComponentsComponent,
+    FilterDialogComponent,
+    NgIf
   ],
   templateUrl: './employee-view.component.html',
   styleUrl: './employee-view.component.css'
@@ -17,9 +24,14 @@ import {Router} from "@angular/router";
 export class EmployeeViewComponent implements OnInit {
   protected employeeService: EmployeeService;
   private router: Router;
+  protected filterDialogVisible: boolean = false;
+  protected selectedQualifications: Qualification[] = [];
+  protected filteredData: Employee[] = [];
+  protected qualificationService: QualificationService;
 
-  constructor(employeeService: EmployeeService, router: Router) {
+  constructor(employeeService: EmployeeService, qualificationService: QualificationService, router: Router) {
     this.employeeService = employeeService;
+    this.qualificationService = qualificationService;
     this.router = router;
 
     this.onEdit = this.onEdit.bind(this);
@@ -29,18 +41,48 @@ export class EmployeeViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.employeeService.loadEmployees();
+    this.filteredData = this.employeeService.employees;
+    this.qualificationService.loadQualifications();
   }
 
   protected onEdit(employeeId: number): void {
     this.router.navigate(['employee', 'edit', employeeId]);
   }
 
-  protected onDelete(employeeId: number) : void {
+  protected onDelete(employeeId: number): void {
     this.employeeService.removeEmployee(employeeId);
   }
 
-  protected onAdd() : void {
+  protected onAdd(): void {
     this.router.navigate(['employee', 'create']);
   }
 
+  onFilterChange(selectedFilters: Qualification[]) {
+    this.selectedQualifications = selectedFilters;
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    if (this.selectedQualifications.length > 0) {
+      this.filteredData = this.employeeService.employees.filter((member) =>
+        this.selectedQualifications.some((qualification) =>
+          member.skillSet === qualification.id
+        )
+      );
+    } else {
+      this.filteredData = [...this.employeeService.employees];
+    }
+  }
+
+  toggleFilterDialog(event: Event) {
+    event.preventDefault();
+    this.filterDialogVisible = !this.filterDialogVisible;
+  }
+
+  removeFiltering(event: Event) {
+    event.preventDefault();
+    this.selectedQualifications = [];
+    this.applyFilter();
+    this.filterDialogVisible = false;
+  }
 }

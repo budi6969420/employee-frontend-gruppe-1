@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {SearchBarComponent} from "../search-bar/search-bar.component";
 
 
 @Component({
@@ -11,17 +12,15 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['./table-with-editable-and-deleteable-components.component.css']
 })
 export class TableWithEditableAndDeleteableComponentsComponent {
+  @Input() data: any[] = [];
+  @Input() tableName: string = "";
+  @Input() showSearchbar: boolean = false;
 
-  @Input() data: any[] = [
-  ];
-
+  @Input() onEditFunction: ((data: any) => void) | null = null;
+  @Input() onDeleteFunction: ((data: any) => void) | null = null;
+  @Input() onAddFunction: ((data: any) => void) | null = null;
 
   filteredData: any[] = [];
-
-
-  ngOnInit() {
-    this.filteredData = [...this.data];  // Initiale Daten setzen
-  }
 
   onSearch(term: string) {
     if (term) {
@@ -32,17 +31,6 @@ export class TableWithEditableAndDeleteableComponentsComponent {
       this.filteredData = [...this.data];  // Alles anzeigen, wenn das Suchfeld leer ist
     }
   }
-
-  @Input() tableName: string = "";
-
-  @Input() onEditFunction: ((data: any) => void) | null = null;
-  @Input() onDeleteFunction: ((data: any) => void) | null = null;
-  @Input() onAddFunction: ((data: any) => void) | null = null;
-
-
-
-  @Output() edit = new EventEmitter<any>();
-  @Output() delete = new EventEmitter<any>();
 
   protected readonly menubar = menubar;
 }

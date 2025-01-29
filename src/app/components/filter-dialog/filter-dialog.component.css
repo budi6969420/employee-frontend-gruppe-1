@@ -1,0 +1,25 @@
+.filter-list {
+  position: absolute;
+  background-color: white;
+  max-height: 163px;
+  overflow-y: scroll;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  padding: 4px 7px;
+  width: 146px;
+  z-index: 999;
+  right: 0;
+  top: 95%;
+}
+
+.filter-list label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+input[type='checkbox'] {
+  margin-right: 10px;
+}
