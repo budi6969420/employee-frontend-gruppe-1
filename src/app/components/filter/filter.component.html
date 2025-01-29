@@ -1,0 +1,18 @@
+<div class="d-flex flex-row justify-content-center align-items-center gap-3">
+  <a href="#" (click)="toggleFilterDialog($event)">
+    <i class="bi bi-filter fs-3"></i>
+  </a>
+
+  <a *ngIf="selectedQualifications.length > 0"
+     class="d-flex flex-row justify-content-center align-items-center text-decoration-none gap-1"
+     href="#" (click)="removeFiltering($event)">
+    Remove Filter
+    <i class="bi bi-x-lg"></i>
+  </a>
+</div>
+
+<app-filter-dialog
+  *ngIf="filterDialogVisible"
+  [qualifications]="qualifications"
+  (filterChange)="onFilterChange($event)">
+</app-filter-dialog>

@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, TemplateRef} from '@angular/core';
 import {SearchBarComponent} from "../search-bar/search-bar.component";
+import {NgTemplateOutlet} from "@angular/common";
 
 
 @Component({
@@ -7,7 +8,8 @@ import {SearchBarComponent} from "../search-bar/search-bar.component";
   templateUrl: './table-with-editable-and-deleteable-components.component.html',
   standalone: true,
   imports: [
-    SearchBarComponent
+    SearchBarComponent,
+    NgTemplateOutlet
   ],
   styleUrls: ['./table-with-editable-and-deleteable-components.component.css']
 })
@@ -19,6 +21,7 @@ export class TableWithEditableAndDeleteableComponentsComponent {
   @Input() onEditFunction: ((data: any) => void) | null = null;
   @Input() onDeleteFunction: ((data: any) => void) | null = null;
   @Input() onAddFunction: ((data: any) => void) | null = null;
+  @Input() filterComponent: TemplateRef<any> | null = null;
 
   filteredData: any[] | null = null;
 

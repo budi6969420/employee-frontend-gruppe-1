@@ -3,6 +3,9 @@
     <div class="d-flex align-items-baseline justify-content-end position-relative">
       <app-search-bar (search)="onSearch($event)"></app-search-bar>
     </div>
+    @if (filterComponent) {
+      <ng-container *ngTemplateOutlet="filterComponent"></ng-container>
+    }
   }
 
   <div class="custom-table container border rounded p-0 overflow-auto">

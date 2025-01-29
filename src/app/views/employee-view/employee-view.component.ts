@@ -9,6 +9,7 @@ import {Qualification} from "../../Qualification";
 import {Employee} from "../../Employee";
 import {NgIf} from "@angular/common";
 import {QualificationService} from "../../services/qualification.service";
+import {FilterComponent} from "../../components/filter/filter.component";
 
 @Component({
   selector: 'app-employee-view',
@@ -16,7 +17,8 @@ import {QualificationService} from "../../services/qualification.service";
   imports: [
     TableWithEditableAndDeleteableComponentsComponent,
     FilterDialogComponent,
-    NgIf
+    NgIf,
+    FilterComponent
   ],
   templateUrl: './employee-view.component.html',
   styleUrl: './employee-view.component.css'
@@ -25,7 +27,6 @@ export class EmployeeViewComponent implements OnInit {
   protected employeeService: EmployeeService;
   private router: Router;
   protected filterDialogVisible: boolean = false;
-  protected selectedQualifications: Qualification[] = [];
   protected filteredData: Employee[] = [];
   protected qualificationService: QualificationService;
 
@@ -65,32 +66,8 @@ export class EmployeeViewComponent implements OnInit {
     this.router.navigate(['employee', 'create']);
   }
 
-  onFilterChange(selectedFilters: Qualification[]) {
-    this.selectedQualifications = selectedFilters;
-    this.applyFilter();
+  onFilteredDataChanged(filteredData: Employee[]) {
+    this.filteredData = filteredData;
   }
 
-  applyFilter() {
-    if (this.selectedQualifications.length > 0) {
-      this.filteredData = this.employeeService.employees.filter((member) =>
-        this.selectedQualifications.some((qualification) =>
-          member.skillSet === qualification.id
-        )
-      );
-    } else {
-      this.filteredData = [...this.employeeService.employees];
-    }
-  }
-
-  toggleFilterDialog(event: Event) {
-    event.preventDefault();
-    this.filterDialogVisible = !this.filterDialogVisible;
-  }
-
-  removeFiltering(event: Event) {
-    event.preventDefault();
-    this.selectedQualifications = [];
-    this.applyFilter();
-    this.filterDialogVisible = false;
-  }
 }
