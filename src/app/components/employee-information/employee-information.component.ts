@@ -22,11 +22,14 @@ export class EmployeeInformationComponent implements OnInit {
       this.employee = new Employee();
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit(form: NgForm, event: Event) {
+    event.stopPropagation();
+
     if (form.valid) {
       this.submit.emit(this.employee);
     } else {
       alert('Please fill all the required fields.');
+      return; // Vorgang abbrechen
     }
   }
 }

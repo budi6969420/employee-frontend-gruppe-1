@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import {NgIf} from "@angular/common";
 
 @Component({
@@ -18,8 +18,14 @@ export class QualificationSelectionMenuComponent {
   @Output() selectedQualifications = new EventEmitter<any[]>(); // Gibt die ausgewählten Qualifikationen zurück
   @Output() isVisibleChange = new EventEmitter<boolean>(); // Gibt die Sichtbarkeitsänderung zurück
 
+  @Input() selectedQualificationsList: any[] = [];
   private selected: any[] = []; // Interne Liste der ausgewählten Qualifikationen
 
+  ngOnChanges(changes: SimpleChanges){
+    if (changes['selectedQualificationsList']) {
+      this.selected = [...this.selectedQualificationsList]; // Parent Selektion übernehmen
+    }
+  }
 
   isSelected(qualification: any): boolean {
     return this.selected.some((q) => q.id === qualification.id); // Prüft, ob die Qualifikation ausgewählt ist
