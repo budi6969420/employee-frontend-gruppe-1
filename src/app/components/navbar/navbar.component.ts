@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {RouterLink, RouterLinkActive} from "@angular/router";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
+import {TokenService} from "../../services/token.service";
 
 @Component({
   selector: 'app-navbar',
@@ -12,5 +13,10 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-
+  constructor(private tokenService: TokenService, private router: Router) {
+  }
+  logout(): void {
+    this.tokenService.removeTokenFromMemory();
+    this.router.navigate(['/login']);
+  }
 }
