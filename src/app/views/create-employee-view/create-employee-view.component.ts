@@ -8,6 +8,7 @@ import {
   QualificationSelectionTableComponent
 } from "../../components/qualification-selection-table/qualification-selection-table.component";
 import {Employee} from "../../Employee";
+import {ErrorService} from "../../services/error.service";
 
 @Component({
   selector: 'app-create-employee-view',
@@ -22,17 +23,16 @@ import {Employee} from "../../Employee";
 export class CreateEmployeeViewComponent {
   qualifications: Qualification[];
   selectedQualifications: Qualification[];
-  newEmployee: Employee;
 
   constructor(private qualificationService: QualificationService,
               private employeeService: EmployeeService,
-              private router: Router) {
+              private router: Router,
+              private errorService: ErrorService) {
     this.onDelete = this.onDelete.bind(this);
     this.onAdd = this.onAdd.bind(this);
     this.onEdit = this.onEdit.bind(this);
     this.qualifications = [];
     this.selectedQualifications = [];
-    this.newEmployee = new Employee();
   }
 
 
@@ -54,14 +54,19 @@ export class CreateEmployeeViewComponent {
 
   onSelectedQualificationChange($event: any[]): void {
     this.selectedQualifications = $event;
-    this.newEmployee.skillSet = $event.map(skill => skill.id);
-    console.log('quali ' + this.newEmployee);
   }
 
   onInformationSubmit($event: Employee): void {
-    this.newEmployee = $event;
-    console.log('info ');
-    console.log(this.newEmployee);
+    let employee = new Employee(undefined, $event.lastName, $event.firstName, 'Mulberry Street', $event.postcode, $event.city, $event.phone, this.selectedQualifications.map(x => x.id).filter(x => x != undefined))
+
+    this.employeeService.createEmployee(employee).subscribe({
+      next: () => {
+        this.router.navigate(['/employees']);
+      },
+      error: (err) => {
+        this.errorService.setError("employee creation failed: " + err.message);
+      }
+    });
   }
 
 }

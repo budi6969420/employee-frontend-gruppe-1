@@ -48,11 +48,10 @@ export class QualificationSelectionTableComponent implements OnInit {
 
   onPopupVisibilityChange(isVisible: boolean): void {
     this.isPopupVisible = isVisible;
-
   }
 
   protected onDelete(qualificationId: number) : void {
-    this.qualificationService.removeQualification(qualificationId);
+    this.selectedQualifications = this.selectedQualifications.filter(sq => sq.id !== qualificationId)
   }
 
   protected onEdit(qualificationId: number) : void {

@@ -22,7 +22,6 @@ export class EmployeeInformationComponent implements OnInit {
       this.employee = new Employee();
   }
 
-
   onSubmit(form: NgForm) {
     if (form.valid) {
       this.submit.emit(this.employee);

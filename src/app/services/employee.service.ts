@@ -82,6 +82,8 @@ export class EmployeeService{
       return of(undefined);
     }
 
+
+    console.log(JSON.stringify(employee))
     return this.http
       .post<Employee>('https://api.employee.budidev.de/employees', employee, {
         headers: new HttpHeaders()
