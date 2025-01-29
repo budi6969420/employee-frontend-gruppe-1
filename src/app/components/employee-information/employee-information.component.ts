@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormsModule, NgForm} from "@angular/forms";
 import {Employee} from "../../Employee";
 import {NgIf} from "@angular/common";
@@ -17,8 +17,13 @@ export class EmployeeInformationComponent implements OnInit {
   employee: Employee | undefined;
 
   @Output() submit = new EventEmitter<any>();
+  @Input() data?: Employee;
 
   ngOnInit(): void {
+    console.log(this.data);
+    if(this.data)
+      this.employee = this.data;
+   else
       this.employee = new Employee();
   }
 

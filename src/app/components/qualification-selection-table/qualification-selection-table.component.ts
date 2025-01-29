@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   TableWithEditableAndDeleteableComponentsComponent
 } from "../table-with-editable-and-deleteable-components/table-with-editable-and-deleteable-components.component";
@@ -21,6 +21,7 @@ import {
   styleUrl: './qualification-selection-table.component.css'
 })
 export class QualificationSelectionTableComponent implements OnInit {
+  @Input() qualificationIdsOfEmployee?: number[];
   @Output() selected = new EventEmitter<any[]>();
   protected qualifications: Qualification[];
   protected selectedQualifications: Qualification[];
@@ -38,8 +39,21 @@ export class QualificationSelectionTableComponent implements OnInit {
   ngOnInit(): void {
     this.qualificationService.getQualifications().subscribe(q => {
       this.qualifications = q.map(x => new Qualification(x.id, x.skill));
+      console.log(this.qualifications);
+      console.log('x');
+      console.log(this.qualificationIdsOfEmployee);
+      if (this.qualificationIdsOfEmployee) {
+        // this.selectedQualifications = this.qualifications.filter(q =>
+        //   q.id !== undefined && this.qualificationIdsOfEmployee?.includes(q.id)
+        // );
+        this.selectedQualifications = this.qualifications.filter(q => {
+          console.log('Checking qualification ID:', q.id);
+          return q.id !== undefined && this.qualificationIdsOfEmployee?.includes(q.id);
+        });
+        console.log(this.selectedQualifications);
+        console.log(this.qualificationIdsOfEmployee);
+      }
     });
-
   }
 
   openPopup(): void {

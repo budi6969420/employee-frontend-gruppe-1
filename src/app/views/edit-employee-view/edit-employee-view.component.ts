@@ -1,20 +1,22 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {EmployeeInformationComponent} from "../../components/employee-information/employee-information.component";
-import {
-  TableWithEditableAndDeleteableComponentsComponent
-} from "../../components/table-with-editable-and-deleteable-components/table-with-editable-and-deleteable-components.component";
 import {ActivatedRoute} from "@angular/router";
-import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {EmployeeService} from "../../services/employee.service";
 import {Employee} from "../../Employee";
+import {NgIf} from "@angular/common";
+import {
+  QualificationSelectionTableComponent
+} from "../../components/qualification-selection-table/qualification-selection-table.component";
+import {Qualification} from "../../Qualification";
 
 @Component({
   selector: 'app-edit-employee-view',
   standalone: true,
   imports: [
     EmployeeInformationComponent,
-    TableWithEditableAndDeleteableComponentsComponent
+    NgIf,
+    QualificationSelectionTableComponent
   ],
   templateUrl: './edit-employee-view.component.html',
   styleUrl: './edit-employee-view.component.css'
@@ -22,6 +24,7 @@ import {Employee} from "../../Employee";
 export class EditEmployeeViewComponent implements OnInit {
   employeeId: number | undefined;
   employee: Employee | undefined;
+  selectedQualifications: Qualification[];
 
   constructor(private route: ActivatedRoute, private employeeService: EmployeeService) {
     this.route.params
@@ -30,13 +33,22 @@ export class EditEmployeeViewComponent implements OnInit {
         this.employeeId = Number(id);
         console.log('Employee ID:', this.employeeId);
       });
+    this.selectedQualifications = [];
   }
 
   ngOnInit(): void {
     if (this.employeeId) {
-      this.employeeService.getEmployee(this.employeeId).subscribe(e =>  { this.employee = e; console.log(e); });
-      // add err wenn 404 dann Fehler Meldung + go Home!
+      this.employeeService.getEmployee(this.employeeId).subscribe({
+        next: (e) => {
+          this.employee = e;
+          console.log('Employee loaded:', e);
+        }
+        // add err wenn 404 dann Fehler Meldung + go Home!
+      });
     }
+  }
 
+  onSelectedQualificationChange($event: any[]): void {
+    this.selectedQualifications = $event;
   }
 }
