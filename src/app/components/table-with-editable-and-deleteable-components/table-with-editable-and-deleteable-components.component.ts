@@ -20,7 +20,12 @@ export class TableWithEditableAndDeleteableComponentsComponent {
   @Input() onDeleteFunction: ((data: any) => void) | null = null;
   @Input() onAddFunction: ((data: any) => void) | null = null;
 
-  filteredData: any[] = [];
+  filteredData: any[] | null = null;
+
+  // great name extra punkte pls
+  useThisDataPls(): any[] {
+    return this.filteredData == null ? this.data: this.filteredData
+  }
 
   onSearch(term: string) {
     if (term) {
@@ -31,6 +36,4 @@ export class TableWithEditableAndDeleteableComponentsComponent {
       this.filteredData = [...this.data];  // Alles anzeigen, wenn das Suchfeld leer ist
     }
   }
-
-  protected readonly menubar = menubar;
 }

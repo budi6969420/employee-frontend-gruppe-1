@@ -40,8 +40,16 @@ export class EmployeeViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.employeeService.loadEmployees();
-    this.filteredData = this.employeeService.employees;
+    this.employeeService.getEmployees().subscribe((employees) => {
+      this.filteredData = employees.map((employee: Employee) => new Employee(employee.id,
+        employee.lastName,
+        employee.firstName,
+        employee.street,
+        employee.postcode,
+        employee.city,
+        employee.phone,
+        employee.skillSet));
+    });
     this.qualificationService.loadQualifications();
   }
 
