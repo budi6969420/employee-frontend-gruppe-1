@@ -38,3 +38,11 @@
   padding: 0;
   text-align: left;
 }
+
+.transition-icon {
+  transition: transform 0.5s ease-in-out;
+}
+
+.rotate-45 {
+  transform: rotate(45deg);
+}

@@ -15,11 +15,11 @@
         </label>
       </div>
     }
-    <button class="newButton d-block text-start" (click)="toggleNewQualificationViewVisibility()">
-      <i class="bi fs-3" [ngClass]="isNewQualificationViewVisible ? 'bi-dash-lg' : 'bi-plus-lg'" ></i>
+    <button class="newButton d-block text-start transition-icon" (click)="toggleNewQualificationViewVisibility()" [ngClass]="{'rotate-45': isNewQualificationViewVisible}">
+      <i class="bi bi-plus-lg fs-3 "></i>
     </button>
 
-<!--    (qualificationCreated?.)="onQualificationCreated()"-->
+    <!--    (qualificationCreated?.)="onQualificationCreated()"-->
     <app-create-qualification-view
       [onCreate]="onQualificationCreated"
       *ngIf="isNewQualificationViewVisible">
