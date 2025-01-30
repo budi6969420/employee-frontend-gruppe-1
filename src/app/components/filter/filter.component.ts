@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {FilterDialogComponent} from "../filter-dialog/filter-dialog.component";
 import {NgIf} from "@angular/common";
 import {Qualification} from "../../Qualification";
@@ -17,7 +17,8 @@ import {Employee} from "../../Employee";
 export class FilterComponent {
   @Input() filterDialogVisible: boolean = false;
   @Input() qualifications: Qualification[] = [];
-  @Input() data: Employee[] = [];
+  @Input() inputtedData: Employee[] = [];
+  data: Employee[] | undefined;
   @Output() protected filteredData: EventEmitter<Employee[]> = new EventEmitter<Employee[]>();
   protected selectedQualifications: Qualification[] = [];
 
@@ -25,20 +26,19 @@ export class FilterComponent {
   }
 
   onFilterChange(selectedQualifications: Qualification[]) {
-    this.selectedQualifications = [...selectedQualifications];
     this.applyFilter();
   }
 
   applyFilter() {
     let resultData: Employee[];
+    if (!this.data) this.data = [...this.inputtedData];
 
     if (this.selectedQualifications.length > 0) {
       resultData = this.data.filter((member) =>
-        this.selectedQualifications.some((qualification) =>
-          member.skillSet?.includes(qualification.id!)
+        this.selectedQualifications.every((qualification) =>
+          member.skillSet!.includes(qualification.id!)
         )
       );
-      // Todo: fix matching between skillSet and selectedQualifications
     } else {
       resultData = [...this.data];
     }

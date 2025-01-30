@@ -14,26 +14,6 @@ export class EmployeeService{
 
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
-  loadEmployees(): void {
-    const token = this.tokenService.getTokenFromMemory();
-
-    if (!token) {
-      this.employees = [];
-      return;
-    }
-
-    this.getEmployees().subscribe((employees) => {
-      this.employees = employees.map((employee: Employee) => new Employee(employee.id,
-        employee.lastName,
-        employee.firstName,
-        employee.street,
-        employee.postcode,
-        employee.city,
-        employee.phone,
-        employee.skillSet));
-    });
-  }
-
   getEmployees(): Observable<Employee[]> {
     const token = this.tokenService.getTokenFromMemory();
 
@@ -42,17 +22,37 @@ export class EmployeeService{
     }
 
     return this.http
-      .get<Employee[]>('https://api.employee.budidev.de/employees', {
+      .get<EmployeeGetDto[]>('https://api.employee.budidev.de/employees', {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`),
       })
       .pipe(
+        map((dtos) =>
+          dtos.map((dto) =>
+            new Employee(
+              dto?.id,
+              dto?.lastName,
+              dto?.firstName,
+              dto?.street,
+              dto?.postcode,
+              dto?.city,
+              dto?.phone,
+              dto?.skillSet
+                ? dto.skillSet
+                  .filter((x) => x.id != null)
+                  .map((x) => x.id!)
+                  .filter((id): id is number => id !== undefined)
+                : []
+            )
+          )
+        ),
         catchError((error) => {
           console.error('Error fetching employees', error);
           return of([]);
         })
       );
+
   }
 
   getEmployeeDto(id: number): Observable<EmployeeGetDto | undefined>{

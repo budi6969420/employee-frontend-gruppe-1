@@ -36,9 +36,6 @@ export class EmployeeInformationComponent implements OnInit {
 
     if (form.valid) {
       this.submit.emit(this.employee);
-    } else {
-      alert('Please fill all the required fields.');
-      return; // Vorgang abbrechen
     }
   }
 

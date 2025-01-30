@@ -5,6 +5,7 @@ import {
 import {QualificationService} from "../../services/qualification.service";
 import {Router} from "@angular/router";
 import {Qualification} from "../../Qualification";
+import {ErrorService} from "../../services/error.service";
 
 @Component({
   selector: 'app-qualifications-view',
@@ -17,7 +18,7 @@ import {Qualification} from "../../Qualification";
 })
 export class QualificationsViewComponent implements OnInit {
 
-  constructor(protected qualificationService: QualificationService, private router: Router) {
+  constructor(protected qualificationService: QualificationService, private errorService: ErrorService, private router: Router) {
     this.onDelete = this.onDelete.bind(this);
     this.onAdd = this.onAdd.bind(this);
     this.onEdit = this.onEdit.bind(this);
@@ -28,7 +29,14 @@ export class QualificationsViewComponent implements OnInit {
     }
 
   protected onDelete(qualificationId: number) : void {
-    this.qualificationService.removeQualification(qualificationId);
+    this.qualificationService.removeQualification(qualificationId).subscribe({
+      next: ()=> {
+        this.qualificationService.qualifications = this.qualificationService.qualifications.filter(qualification => qualification.id !== qualificationId);
+      },
+      error: (err: Error)=> {
+        this.errorService.setError("Qualification cant be removed as it connected to an employee.");
+      }
+    });
   }
 
   protected onEdit(qualificationId: number) : void {

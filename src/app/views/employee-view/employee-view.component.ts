@@ -57,7 +57,7 @@ export class EmployeeViewComponent implements OnInit {
   protected onDelete(employeeId: number): void {
     this.employeeService.removeEmployee(employeeId).subscribe({
       next: () => {
-        this.employeeService.employees = this.employeeService.employees.filter(employee => employee.id !== employeeId);
+        this.filteredData = this.filteredData.filter(employee => employee.id !== employeeId);
       },
       error: (err) => {
         this.errorService.setError("employee creation failed: " + err.message);
