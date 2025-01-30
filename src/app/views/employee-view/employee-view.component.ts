@@ -4,6 +4,7 @@ import {
 } from "../../components/table-with-editable-and-deleteable-components/table-with-editable-and-deleteable-components.component";
 import {EmployeeService} from "../../services/employee.service";
 import {Router} from "@angular/router";
+import {ErrorService} from "../../services/error.service";
 import {Employee} from "../../Employee";
 import {QualificationService} from "../../services/qualification.service";
 import {FilterComponent} from "../../components/filter/filter.component";
@@ -25,6 +26,7 @@ export class EmployeeViewComponent implements OnInit {
   protected filteredData: Employee[] = [];
   protected qualificationService: QualificationService;
 
+  constructor(employeeService: EmployeeService, private errorService: ErrorService, router: Router) {
   constructor(employeeService: EmployeeService, qualificationService: QualificationService, router: Router) {
     this.employeeService = employeeService;
     this.qualificationService = qualificationService;
@@ -53,11 +55,18 @@ export class EmployeeViewComponent implements OnInit {
     this.router.navigate(['employee', 'edit', employeeId]);
   }
 
-  protected onDelete(employeeId: number): void {
-    this.employeeService.removeEmployee(employeeId);
+  protected onDelete(employeeId: number) : void {
+    this.employeeService.removeEmployee(employeeId).subscribe({
+      next: () => {
+        this.employeeService.employees = this.employeeService.employees.filter(employee => employee.id !== employeeId);
+      },
+      error: (err) => {
+        this.errorService.setError("employee creation failed: " + err.message);
+      }
+    });
   }
 
-  protected onAdd(): void {
+  protected onAdd() : void {
     this.router.navigate(['employee', 'create']);
   }
 

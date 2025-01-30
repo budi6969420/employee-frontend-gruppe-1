@@ -31,7 +31,7 @@ export class QualificationService{
         }
       });
   }
-  
+
   getQualification(id: number): Observable<Qualification | undefined> {
     return this.getQualifications().pipe(
       map(qualifications => qualifications.find(q => q.id === id))
@@ -69,11 +69,11 @@ export class QualificationService{
       });
   }
 
-  createQualification(qualificationName: string) {
+  createQualification(qualificationName: string) : Observable<Qualification | undefined> {
     const token = this.tokenService.getTokenFromMemory();
 
     if (!token) {
-      return of([]);
+      return of(undefined);
     }
 
     const body = {
@@ -81,7 +81,7 @@ export class QualificationService{
     };
 
     return this.http
-      .post('https://api.employee.budidev.de/qualifications',
+      .post<Qualification>('https://api.employee.budidev.de/qualifications',
         body,
         {
         headers: new HttpHeaders()

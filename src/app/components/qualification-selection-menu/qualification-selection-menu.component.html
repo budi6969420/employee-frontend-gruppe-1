@@ -1,0 +1,33 @@
+<div class="popup-overlay">
+  <div class="popup-container">
+    <div>
+      <h2>Select Qualifications</h2>
+    </div>
+    @for (qualification of qualifications; track qualification) {
+      <div class="qualification-item">
+        <label>
+          <input
+            type="checkbox"
+            [checked]="isSelected(qualification)"
+            (change)="toggleSelection(qualification)"
+          />
+          {{ qualification.name }}
+        </label>
+      </div>
+    }
+    <button class="newButton d-block text-start" (click)="toggleNewQualificationViewVisibility()">
+      <i class="bi fs-3" [ngClass]="isNewQualificationViewVisible ? 'bi-dash-lg' : 'bi-plus-lg'" ></i>
+    </button>
+
+<!--    (qualificationCreated?.)="onQualificationCreated()"-->
+    <app-create-qualification-view
+      [onCreate]="onQualificationCreated"
+      *ngIf="isNewQualificationViewVisible">
+    </app-create-qualification-view>
+
+    <div class="popup-actions">
+      <button (click)="confirmSelection()" class="btn btn-primary">Submit</button>
+      <button (click)="onCancel()" class="btn btn-danger">Cancel</button>
+    </div>
+  </div>
+</div>

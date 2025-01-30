@@ -1,0 +1,16 @@
+@if (isPopupVisible) {
+  <app-qualification-selection-menu
+    [initiallySelectedQualifications]="selectedQualifications"
+    (onSelectedQualificationsChanged)="onSelectedQualificationsChange($event)"
+    (onIsVisibleChanged)="onPopupVisibilityChange($event)">
+  </app-qualification-selection-menu>
+}
+
+
+<app-base-table
+  tableName="Qualifications"
+  [onDeleteFunction]="onDelete"
+  [onAddFunction]="openPopup"
+  [data]="selectedQualifications">
+</app-base-table>
+

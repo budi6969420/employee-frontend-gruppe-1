@@ -14,7 +14,9 @@ import {NgTemplateOutlet} from "@angular/common";
   styleUrls: ['./table-with-editable-and-deleteable-components.component.css']
 })
 export class TableWithEditableAndDeleteableComponentsComponent {
+
   @Input() data: any[] = [];
+
   @Input() tableName: string = "";
 
   @Input() onEditFunction: ((data: any) => void) | null = null;
