@@ -1,27 +1,110 @@
 <div class="group">
-  <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+  <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm, $event)">
+    <!-- Firstname -->
     <div class="mb-3 mt-3 mx-5">
-      <label for="firstname" class="form-label">Firstname:</label>
-      <input type="text" class="form-control" id="firstname" placeholder="Bernd">
+      <label for="firstname" class="form-label">First Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="employee!.firstName"
+        name="firstName"
+        id="firstname"
+        required
+      />
+      <div *ngIf="myForm.submitted && !myForm.controls['firstName']?.valid" class="text-danger">
+        Firstname is required.
+      </div>
     </div>
+
+    <!-- Lastname -->
     <div class="mb-3 mx-5">
-      <label for="lastname" class="form-label">Lastname:</label>
-      <input type="text" class="form-control" id="lastname" placeholder="das Brot">
+      <label for="lastname" class="form-label">Last Name:</label>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="employee!.lastName"
+        name="lastName"
+        id="lastname"
+        required
+      />
+      <div *ngIf="myForm.submitted && !myForm.controls['lastName']?.valid" class="text-danger">
+        Lastname is required.
+      </div>
     </div>
+
+    <!-- Postcode -->
     <div class="mb-3 mx-5">
       <label for="postcode" class="form-label">Postcode:</label>
-      <input type="number" class="form-control" id="postcode" placeholder="12345">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="employee!.postcode"
+        name="postcode"
+        id="postcode"
+        minlength="5"
+        maxlength="5"
+        #postcode="ngModel"
+        required
+        pattern="^\d{5}$"
+      />
+      <!-- Fehlermeldungen anzeigen -->
+      <div *ngIf="myForm.submitted && (postcode.errors?.['required'] || postcode.errors?.['pattern'])" class="text-danger">
+        Postcode must be exactly 5 digits.
+      </div>
     </div>
+
+    <!-- Street -->
+    <div class="mb-3 mt-3 mx-5">
+      <label for="street" class="form-label">Street:</label>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="employee!.street"
+        name="street"
+        id="street"
+        required
+      />
+      <div *ngIf="myForm.submitted && !myForm.controls['street']?.valid" class="text-danger">
+        Street is required.
+      </div>
+    </div>
+
+    <!-- City -->
     <div class="mb-3 mx-5">
       <label for="city" class="form-label">City:</label>
-      <input type="text" class="form-control" id="city" placeholder="Brotstadt">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="employee!.city"
+        name="city"
+        id="city"
+        required
+      />
+      <div *ngIf="myForm.submitted && !myForm.controls['city']?.valid" class="text-danger">
+        City is required.
+      </div>
     </div>
+
+    <!-- Phone -->
     <div class="mb-3 mx-5">
       <label for="phone" class="form-label">Phone:</label>
-      <input type="text" class="form-control" id="phone" placeholder="12345/123456789">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="employee!.phone"
+        name="phone"
+        id="phone"
+        required
+      />
+      <div *ngIf="myForm.submitted && !myForm.controls['phone']?.valid" class="text-danger">
+        Phone is required.
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="submit" class="btn btn-warning">Edit</button>
-    <button type="reset" class="btn btn-danger">Cancel</button>
+
+    <!-- Buttons -->
+    <div class="mx-5">
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="reset" class="btn btn-danger ms-2" (click)="onCancel()">Cancel</button>
+    </div>
   </form>
 </div>

@@ -5,12 +5,13 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   selector: 'app-base-table',
   templateUrl: './table-with-editable-and-deleteable-components.component.html',
   standalone: true,
+  imports: [
+  ],
   styleUrls: ['./table-with-editable-and-deleteable-components.component.css']
 })
 export class TableWithEditableAndDeleteableComponentsComponent {
 
-  @Input() data: any[] = [
-  ];
+  @Input() data: any[] = [];
 
   @Input() tableName: string = "";
 
@@ -20,8 +21,5 @@ export class TableWithEditableAndDeleteableComponentsComponent {
 
 
 
-  @Output() edit = new EventEmitter<any>();
-  @Output() delete = new EventEmitter<any>();
 
-  protected readonly menubar = menubar;
 }
