@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FilterDialogComponent } from "../filter-dialog/filter-dialog.component";
-import { NgIf } from "@angular/common";
-import { Qualification } from "../../Qualification";
-import { Employee } from "../../Employee";
+import {Component, ElementRef, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {FilterDialogComponent} from "../filter-dialog/filter-dialog.component";
+import {NgIf} from "@angular/common";
+import {Qualification} from "../../Qualification";
+import {Employee} from "../../Employee";
 
 @Component({
   selector: 'app-filter',
@@ -21,20 +21,24 @@ export class FilterComponent {
   @Output() protected filteredData: EventEmitter<Employee[]> = new EventEmitter<Employee[]>();
   protected selectedQualifications: Qualification[] = [];
 
-  onFilterChange(selectedFilters: Qualification[]) {
-    this.selectedQualifications = selectedFilters;
+  constructor(private elRef: ElementRef) {
+  }
+
+  onFilterChange(selectedQualifications: Qualification[]) {
+    this.selectedQualifications = [...selectedQualifications];
     this.applyFilter();
   }
 
   applyFilter() {
-    let resultData: Employee[] = [];
+    let resultData: Employee[];
 
     if (this.selectedQualifications.length > 0) {
       resultData = this.data.filter((member) =>
         this.selectedQualifications.some((qualification) =>
-          member.skillSet === qualification.id
+          member.skillSet?.includes(qualification.id!)
         )
       );
+      // Todo: fix matching between skillSet and selectedQualifications
     } else {
       resultData = [...this.data];
     }
@@ -52,5 +56,12 @@ export class FilterComponent {
     this.selectedQualifications = [];
     this.applyFilter();
     this.filterDialogVisible = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    if (!this.elRef.nativeElement.contains(event.target) && this.filterDialogVisible) {
+      this.toggleFilterDialog(event);
+    }
   }
 }

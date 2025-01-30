@@ -4,10 +4,7 @@ import {
 } from "../../components/table-with-editable-and-deleteable-components/table-with-editable-and-deleteable-components.component";
 import {EmployeeService} from "../../services/employee.service";
 import {Router} from "@angular/router";
-import {FilterDialogComponent} from "../../components/filter-dialog/filter-dialog.component";
-import {Qualification} from "../../Qualification";
 import {Employee} from "../../Employee";
-import {NgIf} from "@angular/common";
 import {QualificationService} from "../../services/qualification.service";
 import {FilterComponent} from "../../components/filter/filter.component";
 
@@ -16,8 +13,6 @@ import {FilterComponent} from "../../components/filter/filter.component";
   standalone: true,
   imports: [
     TableWithEditableAndDeleteableComponentsComponent,
-    FilterDialogComponent,
-    NgIf,
     FilterComponent
   ],
   templateUrl: './employee-view.component.html',
@@ -77,5 +72,4 @@ export class EmployeeViewComponent implements OnInit {
       (employee.firstName! + " " + employee.lastName!).toLowerCase().includes(term.toLowerCase()) ||
       (employee.lastName! + " " + employee.firstName!).toLowerCase().includes(term.toLowerCase());
   }
-
 }

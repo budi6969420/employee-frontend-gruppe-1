@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Qualification } from "../../Qualification";
-import { NgForOf } from "@angular/common";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {NgForOf} from "@angular/common";
+import {Qualification} from "../../Qualification";
 
 @Component({
   selector: 'app-filter-dialog',
@@ -11,9 +11,9 @@ import { NgForOf } from "@angular/common";
 })
 export class FilterDialogComponent implements OnInit {
   @Input() qualifications: Qualification[] = [];
+  @Input() selectedQualifications: Qualification[] = [];
   @Output() filterChange = new EventEmitter<Qualification[]>();
 
-  selectedQualifications: Qualification[] = [];
   sortedQualifications: Qualification[] = [];
 
   ngOnInit() {
@@ -21,22 +21,22 @@ export class FilterDialogComponent implements OnInit {
   }
 
   sortQualifications() {
-    const selected = this.selectedQualifications.sort((a, b) => a.skill.localeCompare(b.skill)); // Sorting by skill
+    const selected = this.selectedQualifications.sort((a, b) => a.skill.localeCompare(b.skill));
     const notSelected = this.qualifications
       .filter(q => !this.selectedQualifications.includes(q))
-      .sort((a, b) => a.skill.localeCompare(b.skill)); // Sorting by skill
+      .sort((a, b) => a.skill.localeCompare(b.skill));
 
     this.sortedQualifications = [...selected, ...notSelected];
   }
 
   toggleCheckbox(qualification: Qualification) {
-    const index = this.selectedQualifications.indexOf(qualification);
+    const index = this.selectedQualifications.findIndex(q => q.id === qualification.id);
     if (index > -1) {
       this.selectedQualifications.splice(index, 1);
     } else {
       this.selectedQualifications.push(qualification);
     }
     this.sortQualifications();
-    this.filterChange.emit(this.selectedQualifications);
+    this.filterChange.emit([...this.selectedQualifications]);
   }
 }

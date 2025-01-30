@@ -14,5 +14,6 @@
 <app-filter-dialog
   *ngIf="filterDialogVisible"
   [qualifications]="qualifications"
+  [selectedQualifications]="selectedQualifications"
   (filterChange)="onFilterChange($event)">
 </app-filter-dialog>
