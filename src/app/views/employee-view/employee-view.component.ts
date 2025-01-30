@@ -5,12 +5,16 @@ import {
 import {EmployeeService} from "../../services/employee.service";
 import {Router} from "@angular/router";
 import {ErrorService} from "../../services/error.service";
+import {Employee} from "../../Employee";
+import {QualificationService} from "../../services/qualification.service";
+import {FilterComponent} from "../../components/filter/filter.component";
 
 @Component({
   selector: 'app-employee-view',
   standalone: true,
   imports: [
-    TableWithEditableAndDeleteableComponentsComponent
+    TableWithEditableAndDeleteableComponentsComponent,
+    FilterComponent
   ],
   templateUrl: './employee-view.component.html',
   styleUrl: './employee-view.component.css'
@@ -18,9 +22,13 @@ import {ErrorService} from "../../services/error.service";
 export class EmployeeViewComponent implements OnInit {
   protected employeeService: EmployeeService;
   private router: Router;
+  protected filterDialogVisible: boolean = false;
+  protected filteredData: Employee[] = [];
+  protected qualificationService: QualificationService;
 
-  constructor(employeeService: EmployeeService, private errorService: ErrorService, router: Router) {
+  constructor(employeeService: EmployeeService, private errorService: ErrorService, qualificationService: QualificationService, router: Router) {
     this.employeeService = employeeService;
+    this.qualificationService = qualificationService;
     this.router = router;
 
     this.onEdit = this.onEdit.bind(this);
@@ -29,17 +37,27 @@ export class EmployeeViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.employeeService.loadEmployees();
+    this.employeeService.getEmployees().subscribe((employees) => {
+      this.filteredData = employees.map((employee: Employee) => new Employee(employee.id,
+        employee.lastName,
+        employee.firstName,
+        employee.street,
+        employee.postcode,
+        employee.city,
+        employee.phone,
+        employee.skillSet));
+    });
+    this.qualificationService.loadQualifications();
   }
 
   protected onEdit(employeeId: number): void {
     this.router.navigate(['employee', 'edit', employeeId]);
   }
 
-  protected onDelete(employeeId: number) : void {
+  protected onDelete(employeeId: number): void {
     this.employeeService.removeEmployee(employeeId).subscribe({
       next: () => {
-        this.employeeService.employees = this.employeeService.employees.filter(employee => employee.id !== employeeId);
+        this.filteredData = this.filteredData.filter(employee => employee.id !== employeeId);
       },
       error: (err) => {
         this.errorService.setError("employee creation failed: " + err.message);
@@ -47,8 +65,19 @@ export class EmployeeViewComponent implements OnInit {
     });
   }
 
-  protected onAdd() : void {
+  protected onAdd(): void {
     this.router.navigate(['employee', 'create']);
   }
 
+  onFilteredDataChanged(filteredData: Employee[]) {
+    this.filteredData = filteredData;
+  }
+
+  searchFilterFunction(employee: Employee, term: string): Boolean {
+    return employee.lastName!.toLowerCase().includes(term.toLowerCase()) ||
+      employee.firstName!.toLowerCase().includes(term.toLowerCase()) ||
+      employee.name!.toLowerCase().includes(term.toLowerCase()) ||
+      (employee.firstName! + " " + employee.lastName!).toLowerCase().includes(term.toLowerCase()) ||
+      (employee.lastName! + " " + employee.firstName!).toLowerCase().includes(term.toLowerCase());
+  }
 }

@@ -1,5 +1,15 @@
-.custom-table {
-  max-height: 510px;
+.table-container {
+  position: relative;
+}
+
+.tbody-container {
+  max-height: 350px;
+  overflow-y: auto;
+  display: block;
+}
+
+.tbody-container table {
+  width: 100%;
 }
 
 .th-custom {

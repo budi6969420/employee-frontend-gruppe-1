@@ -154,3 +154,13 @@ Des Weiteren ist der Client mit der Bezeichnung employee-management-service-fron
 
 Trage hier die Features ein, die nicht funktionieren. Beschreibe den jeweiligen Fehler. 
 
+# Details zur Anwendung
+
+## Filterung
+
+Die Filterung funktioniert wie folgt:
+
+1. Nur CSS angewählt: Nur die Mitarbeiter, welche CSS als Qualifikation besitzen, werden angezeigt.
+2. CSS und Java angewählt: Nur die Mitarbeiter, welche CSS *und* Java als Qualifikation besitzen, werden angezeigt.
+
+## TODO: Weitere Themen

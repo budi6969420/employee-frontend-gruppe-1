@@ -25,10 +25,6 @@ export class QualificationService{
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`),
-      }).subscribe({
-        next: ()=> {
-          this.qualifications = this.qualifications.filter(qualification => qualification.id !== qualificationId);
-        }
       });
   }
 

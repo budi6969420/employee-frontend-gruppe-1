@@ -4,6 +4,17 @@
     [onEditFunction]="onEdit"
     [onDeleteFunction]="onDelete"
     [onAddFunction]="onAdd"
-    [data]="employeeService.employees">
+    [data]="filteredData"
+    [searchFilterFunction] = "searchFilterFunction"
+    [filterComponent]="filterTemplate">
+    <ng-template #filterTemplate>
+      <app-filter
+        [filterDialogVisible]="filterDialogVisible"
+        [qualifications]="qualificationService.qualifications"
+        [inputtedData]="filteredData"
+        (filteredData)="onFilteredDataChanged($event)">
+      </app-filter>
+    </ng-template>
+
   </app-base-table>
 </div>

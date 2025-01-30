@@ -1,0 +1,12 @@
+<div class="filter-list">
+  <div *ngFor="let item of sortedQualifications">
+    <label>
+      <input
+        type="checkbox"
+        [checked]="selectedQualifications.includes(item)"
+        (change)="toggleCheckbox(item)"
+      />
+      {{ item.skill }}
+    </label>
+  </div>
+</div>
