@@ -1,4 +1,4 @@
-<div *ngIf="isVisible" class="popup-overlay">
+<div class="popup-overlay">
   <div class="popup-container">
     <div>
       <h2>Select Qualifications</h2>
@@ -15,19 +15,19 @@
         </label>
       </div>
     }
-    <button class="newButton d-block text-start" (click)="toggleNewQualification()">
-      <i class="bi fs-3" [ngClass]="isNewQualificationVisible ? 'bi-dash-lg' : 'bi-plus-lg'" ></i>
+    <button class="newButton d-block text-start" (click)="toggleNewQualificationViewVisibility()">
+      <i class="bi fs-3" [ngClass]="isNewQualificationViewVisible ? 'bi-dash-lg' : 'bi-plus-lg'" ></i>
     </button>
 
 <!--    (qualificationCreated?.)="onQualificationCreated()"-->
     <app-create-qualification-view
-      [hasToRedirect]="false"
-      *ngIf="isNewQualificationVisible">
+      [onCreate]="onQualificationCreated"
+      *ngIf="isNewQualificationViewVisible">
     </app-create-qualification-view>
 
     <div class="popup-actions">
-      <button (click)="confirmSelection()">Submit</button>
-      <button (click)="closePopup()">Cancel</button>
+      <button (click)="confirmSelection()" class="btn btn-primary">Submit</button>
+      <button (click)="onCancel()" class="btn btn-danger">Cancel</button>
     </div>
   </div>
 </div>

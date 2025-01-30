@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import {map, Observable, of} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Employee } from '../Employee';
 import { TokenService } from "./token.service";
+import {EmployeeGetDto} from "../dtos/EmployeeGetDto";
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +55,7 @@ export class EmployeeService{
       );
   }
 
-  getEmployee(id: number): Observable<Employee | undefined> {
+  getEmployeeDto(id: number): Observable<EmployeeGetDto | undefined>{
     const token = this.tokenService.getTokenFromMemory();
 
     if (!token) {
@@ -62,7 +63,7 @@ export class EmployeeService{
     }
 
     return this.http
-      .get<Employee>(`https://api.employee.budidev.de/employees/${id}`, {
+      .get<EmployeeGetDto>(`https://api.employee.budidev.de/employees/${id}`, {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Authorization', `Bearer ${token}`),
@@ -73,6 +74,19 @@ export class EmployeeService{
           return of(undefined);
         })
       );
+  }
+  getEmployee(id: number): Observable<Employee | undefined> {
+    return this.getEmployeeDto(id).pipe(map((dto) =>
+      new Employee(
+        dto?.id,
+        dto?.lastName,
+        dto?.firstName,
+        dto?.street,
+        dto?.postcode,
+        dto?.city,
+        dto?.phone,
+        dto?.skillSet ? dto.skillSet.filter(x => x.id != null).map(x => x.id!).filter((id): id is number => id !== undefined) : []
+      )));
   }
 
   createEmployee(employee: Employee): Observable<Employee | undefined>  {

@@ -32,26 +32,9 @@
   justify-content: space-around;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:first-of-type {
-  background-color: #007bff;
-  color: white;
-}
-
-button:last-of-type {
-  background-color: #ccc;
-  color: black;
-}
-
 .newButton {
-  background: none !important; /* Entfernt die Hintergrundfarbe */
-  border: none; /* Entfernt den Rahmen */
-  padding: 0; /* Entfernt den inneren Abstand */
-  text-align: left; /* Linksbündige Ausrichtung */
+  background: none !important;
+  border: none;
+  padding: 0;
+  text-align: left;
 }

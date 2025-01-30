@@ -4,6 +4,7 @@ import {
   CreateQualificationViewComponent
 } from "../../views/create-qualification-view/create-qualification-view.component";
 import {QualificationService} from "../../services/qualification.service";
+import {Qualification} from "../../Qualification";
 
 @Component({
   selector: 'app-qualification-selection-menu',
@@ -18,66 +19,71 @@ import {QualificationService} from "../../services/qualification.service";
 })
 export class QualificationSelectionMenuComponent implements OnInit{
 
-  @Input() isVisible: boolean = false;
-  @Input() qualifications: any[] = [];
-  @Output() selectedQualifications = new EventEmitter<any[]>();
-  @Output() isVisibleChange = new EventEmitter<boolean>();
+  @Input() initiallySelectedQualifications: Qualification[] = [];
+  @Output() onSelectedQualificationsChanged = new EventEmitter<Qualification[]>();
+  @Output() onIsVisibleChanged = new EventEmitter<boolean>();
 
-  @Input() selectedQualificationsList: any[] = [];
-  private selected: any[] = [];
-  protected isNewQualificationVisible: boolean = false;
+  protected qualifications: Qualification[] = [];
+  private currentlySelectedQualifications: Qualification[] = [];
+  isNewQualificationViewVisible: boolean = false;
 
-  constructor(private qualificationService: QualificationService,) {
+  constructor(private qualificationService: QualificationService) {
+    this.onQualificationCreated = this.onQualificationCreated.bind(this);
   }
 
   ngOnInit(): void {
-    this.sortQualification();
+    this.qualificationService.getQualifications().subscribe((qualifications) => {
+      qualifications = qualifications.map(x => new Qualification(x.id, x.skill))
+      this.qualifications = qualifications;
+      this.currentlySelectedQualifications = [...this.initiallySelectedQualifications];
+      this.sortQualification();
+    })
   }
 
-  ngOnChanges(changes: SimpleChanges){
-    if (changes['selectedQualificationsList']) {
-      this.selected = [...this.selectedQualificationsList];
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges){
+  //   if (changes['selectedQualificationsList']) {
+  //     this.currentlySelectedQualifications = [...this.initiallySelectedQualifications];
+  //   }
+  // }
 
   isSelected(qualification: any): boolean {
-    return this.selected.some((q) => q.id === qualification.id);
+    return this.currentlySelectedQualifications.some((q) => q.id === qualification.id);
   }
 
   toggleSelection(qualification: any): void {
     if (this.isSelected(qualification)) {
-      this.selected = this.selected.filter((q) => q.id !== qualification.id);
+      this.currentlySelectedQualifications = this.currentlySelectedQualifications.filter((q) => q.id !== qualification.id);
     } else {
-      this.selected.push(qualification);
+      this.currentlySelectedQualifications.push(qualification);
     }
     this.sortQualification();
   }
 
   confirmSelection(): void {
-    this.selectedQualifications.emit(this.selected);
-    this.isVisibleChange.emit(false);
+    this.onSelectedQualificationsChanged.emit(this.currentlySelectedQualifications);
+    this.closeMenu();
   }
 
-  closePopup(): void {
-    this.selected = [...this.selectedQualificationsList];
-    this.isNewQualificationVisible = false;
-    this.isVisibleChange.emit(false);
+  onCancel(): void {
+    this.currentlySelectedQualifications = [...this.initiallySelectedQualifications];
+    this.closeMenu();
   }
 
-  toggleNewQualification(): void {
-    this.isNewQualificationVisible = !this.isNewQualificationVisible;
+  private closeMenu() {
+    this.onIsVisibleChanged.emit(false);
   }
 
-  onQualificationCreated() {
-    alert('yo');
-    console.log("Qualification created");
-    this.isNewQualificationVisible = false;
-    this.qualificationService.getQualifications().subscribe(x => x);
+  onQualificationCreated(qualification : Qualification) {
+    this.isNewQualificationViewVisible = false;
+    qualification = new Qualification(qualification.id, qualification.skill)
+    this.qualifications.push(qualification);
+    this.currentlySelectedQualifications.push(qualification);
+    this.sortQualification();
   }
 
   sortQualification(): void {
-    const selectedIds = new Set(this.selected.map(item => item.id));
-    const sortedItems = this.qualifications.sort((a, b) => {
+    const selectedIds = new Set(this.currentlySelectedQualifications.map(item => item.id));
+    this.qualifications = this.qualifications.sort((a, b) => {
       const isASelected = selectedIds.has(a.id);
       const isBSelected = selectedIds.has(b.id);
 
@@ -90,5 +96,9 @@ export class QualificationSelectionMenuComponent implements OnInit{
       // Wenn beide im gleichen "Status" sind, alphabetisch sortieren
       return a.name.localeCompare(b.name);
     });
+  }
+
+  toggleNewQualificationViewVisibility() {
+    this.isNewQualificationViewVisible = !this.isNewQualificationViewVisible;
   }
 }

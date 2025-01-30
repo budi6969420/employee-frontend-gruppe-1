@@ -1,11 +1,11 @@
 <div class="row mx-5 my-5">
   <div class="col-12 col-md-6" *ngIf="employee">
-    <app-employee-information [data]="employee"></app-employee-information>
+    <app-employee-information (submit)="onInformationSubmit($event)" [data]="employee"></app-employee-information>
   </div>
   <div class="col-12 col-md-6" *ngIf="employee">
     <app-qualification-selection-table
-      [qualificationIdsOfEmployee]="employee.skillSet"
-      (selected)="onSelectedQualificationChange($event)">
+      [qualificationIdsOfEmployee]="selectedQualifications"
+      (onSelectedQualificationsChanged)="onSelectedQualificationChange($event)">
     </app-qualification-selection-table>
   </div>
 </div>

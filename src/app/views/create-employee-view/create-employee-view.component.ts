@@ -53,7 +53,7 @@ export class CreateEmployeeViewComponent {
   }
 
   onInformationSubmit($event: Employee): void {
-    let employee = new Employee(undefined, $event.lastName, $event.firstName, 'Mulberry Street', $event.postcode, $event.city, $event.phone, this.selectedQualifications.map(x => x.id).filter(x => x != undefined))
+    let employee = new Employee(undefined, $event.lastName, $event.firstName, $event.street, $event.postcode, $event.city, $event.phone, this.selectedQualifications.map(x => x.id).filter(x => x != undefined))
 
     this.employeeService.createEmployee(employee).subscribe({
       next: () => {

@@ -21,8 +21,8 @@ import {
   styleUrl: './qualification-selection-table.component.css'
 })
 export class QualificationSelectionTableComponent implements OnInit {
-  @Input() qualificationIdsOfEmployee?: number[];
-  @Output() selected = new EventEmitter<any[]>();
+  @Input() qualificationIdsOfEmployee?: Qualification[];
+  @Output() onSelectedQualificationsChanged = new EventEmitter<Qualification[]>();
   protected qualifications: Qualification[];
   protected selectedQualifications: Qualification[];
   isPopupVisible: boolean = false;
@@ -30,7 +30,7 @@ export class QualificationSelectionTableComponent implements OnInit {
   constructor(private qualificationService: QualificationService,
               private router: Router) {
     this.onDelete = this.onDelete.bind(this);
-    this.onAdd = this.onAdd.bind(this);
+    this.openPopup = this.openPopup.bind(this);
     this.onEdit = this.onEdit.bind(this);
     this.qualifications = [];
     this.selectedQualifications = [];
@@ -43,12 +43,9 @@ export class QualificationSelectionTableComponent implements OnInit {
       console.log('x');
       console.log(this.qualificationIdsOfEmployee);
       if (this.qualificationIdsOfEmployee) {
-        // this.selectedQualifications = this.qualifications.filter(q =>
-        //   q.id !== undefined && this.qualificationIdsOfEmployee?.includes(q.id)
-        // );
         this.selectedQualifications = this.qualifications.filter(q => {
           console.log('Checking qualification ID:', q.id);
-          return q.id !== undefined && this.qualificationIdsOfEmployee?.includes(q.id);
+          return q.id !== undefined && this.qualificationIdsOfEmployee?.map(x => x.id)?.includes(q.id);
         });
         console.log(this.selectedQualifications);
         console.log(this.qualificationIdsOfEmployee);
@@ -56,7 +53,7 @@ export class QualificationSelectionTableComponent implements OnInit {
     });
   }
 
-  openPopup(): void {
+  protected openPopup(): void {
     this.isPopupVisible = true
   }
 
@@ -72,13 +69,8 @@ export class QualificationSelectionTableComponent implements OnInit {
     this.router.navigate(['qualification', 'edit', String(qualificationId)]);
   }
 
-  protected onAdd() : void {
-    this.openPopup();
+  onSelectedQualificationsChange(qualifications: Qualification[]) {
+    this.selectedQualifications = qualifications;
+    this.onSelectedQualificationsChanged.emit(qualifications);
   }
-
-  onSelectedQualificationsChange($event: any[]) {
-    this.selectedQualifications = $event;
-    this.selected.emit($event);
-  }
-
 }

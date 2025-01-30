@@ -1,16 +1,16 @@
-<!--<link rel="stylesheet" href="../qualification-selection-menu/qualification-selection-menu.component.css">-->
-<app-qualification-selection-menu
-  [qualifications]="qualifications"
-  [selectedQualificationsList]="selectedQualifications"
-  [isVisible]="isPopupVisible"
-  (selectedQualifications)="onSelectedQualificationsChange($event)"
-  (isVisibleChange)="onPopupVisibilityChange($event)">
-</app-qualification-selection-menu>
+@if (isPopupVisible) {
+  <app-qualification-selection-menu
+    [initiallySelectedQualifications]="selectedQualifications"
+    (onSelectedQualificationsChanged)="onSelectedQualificationsChange($event)"
+    (onIsVisibleChanged)="onPopupVisibilityChange($event)">
+  </app-qualification-selection-menu>
+}
+
 
 <app-base-table
   tableName="Qualifications"
   [onDeleteFunction]="onDelete"
-  [onAddFunction]="onAdd"
+  [onAddFunction]="openPopup"
   [data]="selectedQualifications">
 </app-base-table>
 

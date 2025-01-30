@@ -1,10 +1,11 @@
-<div class="card p-3 gap-2">
+<form #form="ngForm" (ngSubmit)="createQualification(form)" class="card p-3 gap-2">
   <h4>Create Qualification</h4>
   <div class="d-flex flex-column gap-3">
     <input
       class="form-control"
       placeholder="Enter your Qualifications name here"
       [(ngModel)]="qualificationName"
+      name="qualificationName"
       #qualificationInput="ngModel"
       required
     >
@@ -13,10 +14,10 @@
     </div>
     <button
       class="btn d-flex gap-2 justify-content-center btn-blue"
-      (click)="createQualification()"
+      type="submit"
       [disabled]="qualificationInput.invalid"
     >
       <i class="bi bi-floppy"></i>Save
     </button>
   </div>
-</div>
+</form>

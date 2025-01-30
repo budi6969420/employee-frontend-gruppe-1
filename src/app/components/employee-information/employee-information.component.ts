@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormsModule, NgForm} from "@angular/forms";
 import {Employee} from "../../Employee";
 import {NgIf} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-employee-information',
@@ -15,6 +16,9 @@ import {NgIf} from "@angular/common";
 })
 export class EmployeeInformationComponent implements OnInit {
   employee: Employee | undefined;
+
+  constructor(private router : Router) {
+  }
 
   @Output() submit = new EventEmitter<any>();
   @Input() data?: Employee;
@@ -36,5 +40,9 @@ export class EmployeeInformationComponent implements OnInit {
       alert('Please fill all the required fields.');
       return; // Vorgang abbrechen
     }
+  }
+
+  onCancel() {
+    this.router.navigate(["employees"])
   }
 }
