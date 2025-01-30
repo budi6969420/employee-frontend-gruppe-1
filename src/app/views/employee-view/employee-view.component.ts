@@ -26,8 +26,7 @@ export class EmployeeViewComponent implements OnInit {
   protected filteredData: Employee[] = [];
   protected qualificationService: QualificationService;
 
-  constructor(employeeService: EmployeeService, private errorService: ErrorService, router: Router) {
-  constructor(employeeService: EmployeeService, qualificationService: QualificationService, router: Router) {
+  constructor(employeeService: EmployeeService, private errorService: ErrorService, qualificationService: QualificationService, router: Router) {
     this.employeeService = employeeService;
     this.qualificationService = qualificationService;
     this.router = router;
@@ -55,7 +54,7 @@ export class EmployeeViewComponent implements OnInit {
     this.router.navigate(['employee', 'edit', employeeId]);
   }
 
-  protected onDelete(employeeId: number) : void {
+  protected onDelete(employeeId: number): void {
     this.employeeService.removeEmployee(employeeId).subscribe({
       next: () => {
         this.employeeService.employees = this.employeeService.employees.filter(employee => employee.id !== employeeId);
@@ -66,7 +65,7 @@ export class EmployeeViewComponent implements OnInit {
     });
   }
 
-  protected onAdd() : void {
+  protected onAdd(): void {
     this.router.navigate(['employee', 'create']);
   }
 
