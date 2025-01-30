@@ -39,16 +39,10 @@ export class QualificationSelectionTableComponent implements OnInit {
   ngOnInit(): void {
     this.qualificationService.getQualifications().subscribe(q => {
       this.qualifications = q.map(x => new Qualification(x.id, x.skill));
-      console.log(this.qualifications);
-      console.log('x');
-      console.log(this.qualificationIdsOfEmployee);
       if (this.qualificationIdsOfEmployee) {
         this.selectedQualifications = this.qualifications.filter(q => {
-          console.log('Checking qualification ID:', q.id);
           return q.id !== undefined && this.qualificationIdsOfEmployee?.map(x => x.id)?.includes(q.id);
         });
-        console.log(this.selectedQualifications);
-        console.log(this.qualificationIdsOfEmployee);
       }
     });
   }

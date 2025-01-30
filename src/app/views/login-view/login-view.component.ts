@@ -17,8 +17,8 @@ import {NgClass, NgIf} from "@angular/common";
 })
 export class LoginViewComponent implements OnInit {
 
-  protected username: string = 'user';
-  protected password: string = 'test';
+  protected username: string = '';
+  protected password: string = '';
   protected passwordVisible: boolean = false;
 
   protected tokenService: TokenService;

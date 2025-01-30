@@ -48,7 +48,7 @@ export class EmployeeService{
           )
         ),
         catchError((error) => {
-          console.error('Error fetching employees', error);
+          console.error('Error fetching employee', error);
           return of([]);
         })
       );
@@ -70,7 +70,7 @@ export class EmployeeService{
       })
       .pipe(
         catchError((error) => {
-          console.error('Error fetching employees', error);
+          console.error('Error fetching employee', error);
           return of(undefined);
         })
       );
@@ -96,8 +96,6 @@ export class EmployeeService{
       return of(undefined);
     }
 
-
-    console.log(JSON.stringify(employee))
     return this.http
       .post<Employee>('https://api.employee.budidev.de/employees', employee, {
         headers: new HttpHeaders()

@@ -32,7 +32,6 @@ export class EditEmployeeViewComponent implements OnInit {
       .pipe(map((params) => params['id']))
       .subscribe((id) => {
         this.employeeId = Number(id);
-        console.log('Employee ID:', this.employeeId);
       });
     this.selectedQualifications = [];
   }
@@ -45,7 +44,6 @@ export class EditEmployeeViewComponent implements OnInit {
             this.employee = new Employee(e.id, e.lastName, e.firstName, e.street, e.postcode, e.city, e.phone);
             this.selectedQualifications = e.skillSet;
           }
-          console.log('Employee loaded:', e);
         },
         error: (err) => {
         if (err.status === 404) {
@@ -53,7 +51,6 @@ export class EditEmployeeViewComponent implements OnInit {
           this.router.navigate(['/employees']);
         } else {
           this.errorService.setError("An error occurred while loading the employee.");
-          console.log('Error:', err.message);
         }
       }
       });

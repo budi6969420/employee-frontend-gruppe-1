@@ -24,7 +24,6 @@ export class EmployeeInformationComponent implements OnInit {
   @Input() data?: Employee;
 
   ngOnInit(): void {
-    console.log(this.data);
     if(this.data)
       this.employee = this.data;
    else
