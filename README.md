@@ -9,12 +9,12 @@ Die Filterung funktioniert wie folgt:
 
 ## Hosting
 
-Es ist nicht erforderlich, den Backend-Service lokal zu hosten, da er bereits auf einem VPS unter https://api.employee.budidev.de mit dem Keycloak-Access-Token erreichbar ist.
-Das Frontend wird ebenfalls auf AWS gehostet, wobei der main-Branch im Git als Produktionszweig dient. Aktuell ist es unter https://main.d1kzuqaq9p5p7d.amplifyapp.com erreichbar.
+Es ist nicht erforderlich, den Backend-Service lokal zu hosten, da er bereits auf einem VPS unter https://api.employee.budidev.de mit dem Keycloak-Access-Token erreichbar ist.<br>
+Das Frontend wird ebenfalls auf AWS gehostet, wobei der main-Branch im Git als Produktionszweig dient. Aktuell ist es unter https://employee.devbudi.de/ erreichbar.
 
 ## Login
 
 Um unerwünschten Zugriff zu verhindern, wurde eine Login-Seite hinzugefügt, die den Keycloak-Benutzernamen und das Passwort verwendet:
 
-Benutzername: user
+Benutzername: user<br>
 Passwort: test
