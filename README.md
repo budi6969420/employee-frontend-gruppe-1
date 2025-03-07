@@ -1,5 +1,6 @@
-**HOSTING NO LONGER ONLINE**
+**HOSTING NO LONGER ONLINE** 
 
+backend must be self hosted and the link in the services that fetches the data should be changed to reflect the changes
 
 # Details zur Anwendung
 
